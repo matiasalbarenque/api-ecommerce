@@ -37,7 +37,7 @@ export default function Header() {
   return (
     <header className="p-3 border-b flex justify-between gap-5">
       <div className="flex items-center">
-        <img src="logo.svg" alt="Logo" width="32" height="32" />
+        <img src="/logo.svg" alt="Logo" width="32" height="32" />
       </div>
       <div className="flex justify-center flex-grow gap-3 md:max-w-sm">
         <Input placeholder="Producto a buscar..." />

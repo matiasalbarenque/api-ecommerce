@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import { StyleProvider } from '@ant-design/cssinjs';
 import { HappyProvider } from '@ant-design/happy-work-theme';
-import App from './App.tsx';
+import { router } from './router.tsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -11,13 +12,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: '#32b785',
+          colorPrimary: '#f7b918', // '#32b785',
         },
       }}
     >
       <StyleProvider hashPriority="high">
         <HappyProvider>
-          <App />
+          <RouterProvider router={router} />
         </HappyProvider>
       </StyleProvider>
     </ConfigProvider>
