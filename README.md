@@ -3,7 +3,6 @@
 ## Instalación de dependencias:
 
 ```bash
-# npm
 npm install
 
 ```
@@ -19,3 +18,5 @@ npm run dev
 ```bash
 npm run build
 ```
+
+- Docs de Ant-Design: [Sitio Oficial](https://ant.design/)
