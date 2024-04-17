@@ -20,6 +20,7 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": ["./src/*"],
+      "@assets/*": ["./src/assets/*"],
       "@atoms": ["./src/components/atoms"],
       "@constants": ["./src/constants"],
       "@helpers/*": ["./src/assets/helpers/*"],

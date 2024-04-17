@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { MainLayout } from '@/components/layouts';
-import { HomePage, ProductPage, SearchResultsPage } from './pages/index.ts';
-
+import { CategoryPage, HomePage, ProductPage, SearchResultsPage } from './pages';
+import { AdminProductsEditPage, AdminProductsListPage, AdminUsersEditPage, AdminUsersListPage } from './pages/admin';
 
 export const router = createBrowserRouter([
   {
@@ -9,17 +9,47 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: "/",
+        path: '',
         element: <HomePage />,
       },
       {
-        path: "product/:id",
+        path: 'category/:id',
+        element: <CategoryPage />,
+      },
+      {
+        path: 'product/:id',
         element: <ProductPage />,
       },
       {
-        path: "search/:search-text",
+        path: 'search',
         element: <SearchResultsPage />,
       },
-    ]
-  }
+    ],
+  },
+  {
+    path: '/admin',
+    element: <MainLayout />,
+    children: [
+      {
+        path: '',
+        element: <b>Admin home</b>,
+      },
+      {
+        path: 'products/:id',
+        element: <AdminProductsEditPage />,
+      },
+      {
+        path: 'products',
+        element: <AdminProductsListPage />,
+      },
+      {
+        path: 'users/:id',
+        element: <AdminUsersEditPage />,
+      },
+      {
+        path: 'users',
+        element: <AdminUsersListPage />,
+      },
+    ],
+  },
 ]);
