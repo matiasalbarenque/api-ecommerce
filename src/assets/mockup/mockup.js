@@ -63,7 +63,7 @@ export const products = [
     items: [
       {
         id: 1,
-        title: 'AMD Ryzen 7 7800X3D 4.2 GHz/5 GHz AMD Ryzen 7 7800X3D 4.2 GHz/5 GHz AMD Ryzen 7 7800X3D 4.2 GHz/5 GHz',
+        title: 'AMD Ryzen 7 7800X3D 4.2 GHz/5 GHz',
         price: 799000,
         imageUrl:
           'https://thumb.pccomponentes.com/w-530-530/articles/1066/10665103/1575-amd-ryzen-7-7800x3d-42-ghz-5-ghz.jpg',
@@ -104,7 +104,7 @@ export const adminScreens = [
   {
     id: 1,
     screen: 'products',
-    description: "Products",
+    description: "Productos",
   },
   {
     id: 2,

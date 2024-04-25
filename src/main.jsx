@@ -13,6 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       theme={{
         token: {
           colorPrimary: '#d99f0b', // '#32b785',
+          borderRadius: 5
         },
       }}
     >

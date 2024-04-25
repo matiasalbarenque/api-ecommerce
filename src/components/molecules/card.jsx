@@ -10,7 +10,7 @@ export default function Card(props) {
   };
 
   return (
-    <div className="w-full min-h-[400px] bg-white border-gray-200 border rounded-lg flex flex-col overflow-hidden">
+    <div className="w-full min-h-[400px] bg-white border rounded-lg flex flex-col overflow-hidden">
       <div className="relative aspect-square bg-white group">
         <img src={imageUrl} alt={imageAlt} className="w-full h-full object-cover" />
         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-65 transition-opacity duration-500 opacity-0 group-hover:opacity-100 flex justify-center items-center">

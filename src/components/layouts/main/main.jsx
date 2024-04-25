@@ -1,14 +1,8 @@
-import AsideContent from './sidebar';
-
 export default function Main(props) {
   const { children } = props;
-
   return (
-    <main className="flex-grow flex">
-      <aside className="p-3 w-[290px] border-r">
-        <AsideContent />
-      </aside>
-      <article className="p-4 w-[calc(100%-290px)] bg-slate-50 flex-grow flex flex-col gap-5">{children}</article>
+    <main className="w-full h-full grow flex justify-center bg-slate-50">
+      <article className="p-4 w-full h-min md:h-auto max-w-[1300px] flex">{children}</article>
     </main>
   );
 }

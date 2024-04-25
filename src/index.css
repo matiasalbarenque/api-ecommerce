@@ -4,6 +4,7 @@
 
 * {
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -13,7 +14,7 @@ body {
 #root {
   display: flex;
   flex-direction: column;
-  height: 100dvh;
+  min-height: 100dvh;
 }
 
 /* @media (prefers-color-scheme: light) {
