@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
-import { MainLayout } from './components/layouts/main';
-import { AdminLayout } from './components/layouts/admin';
+import AdminLayout from './components/layouts/admin/layout';
+import MainLayout from './components/layouts/main/layout';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
