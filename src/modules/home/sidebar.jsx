@@ -1,9 +1,20 @@
+import { useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
 
-import { categories } from '@assets/mockup';
+import { getCategories } from '@services/categories';
 
 export default function Sidebar() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategoriesData();
+  }, []);
+
+  const getCategoriesData = async () => {
+    const data = await getCategories();
+    setCategories(data);
+  };
 
   const getItem = (label, key, icon, children, type) => {
     return {

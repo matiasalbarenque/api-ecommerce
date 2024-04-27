@@ -1,11 +1,23 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
 
-import AsideContent from '../modules/home/sidebar';
 import Card from '@molecules/card';
-import { categories } from '@assets/mockup';
+import AsideContent from '../modules/home/sidebar';
+import { getCategories } from '@services/categories';
 
 export function Component() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategoriesData();
+  }, []);
+
+  const getCategoriesData = async () => {
+    const data = await getCategories();
+    setCategories(data);
+  };
+
   return (
     <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[1fr,3fr]">
       <div className="w-full min-w-[320px] h-min p-4 flex flex-col bg-white border rounded-md">
