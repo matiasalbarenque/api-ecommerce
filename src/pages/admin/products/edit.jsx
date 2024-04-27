@@ -1,23 +1,32 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
-import { EditOutlined, DollarOutlined, InboxOutlined, SaveOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import {
+  DollarOutlined,
+  EditOutlined,
+  InboxOutlined,
+  PictureOutlined,
+  SaveOutlined,
+} from '@ant-design/icons';
 import Input from '@atoms/input';
 import Select from '@atoms/select';
-import { categories, products } from '@assets/mockup';
+import { getCategories } from '@services/categories';
+import { getProduct, postProduct, putProduct } from '@services/products';
 
 export function Component() {
   const navigate = useNavigate();
   const params = useParams();
+  const [categories, setCategories] = useState([]);
 
   const { control, formState, handleSubmit, reset } = useForm({
     mode: 'onChange',
     defaultValues: {
       title: '',
       price: '',
+      imageUrl: '',
       stock: '',
-      category: '',
+      categoryId: null,
     },
     shouldUnregister: true,
   });
@@ -25,27 +34,36 @@ export function Component() {
   const isFormValid = Object.keys(formState.errors).length === 0;
 
   useEffect(() => {
-    let product = null;
-    const productList = products.find((a) => {
-      const productFound = a.items.find((b) => b.id.toString() === params.id);
-      if (productFound) {
-        product = productFound;
-      }
-      return productFound;
-    });
-
-    if (product) {
-      reset({
-        price: product.price,
-        stock: product.stock,
-        title: product.title,
-        category: productList.categoryId,
-      });
+    getCategoriesData();
+    if (params.id !== 'new') {
+      getProductData();
     }
   }, []);
 
+  const getCategoriesData = async () => {
+    const data = await getCategories();
+    setCategories(data);
+  };
+
+  const getProductData = async () => {
+    const data = await getProduct(params.id);
+    if (data) {
+      reset({
+        price: data.price,
+        stock: data.stock,
+        imageUrl: data.imageUrl,
+        title: data.title,
+        categoryId: data.categoryId,
+      });
+    }
+  };
+
   const onSubmit = async (formData) => {
-    // TODO Guardar dato en BD
+    if (params.id === 'new') {
+      postProduct(formData);
+    } else {
+      putProduct(params.id, formData);
+    }
     navigate('/admin/products');
   };
 
@@ -91,13 +109,22 @@ export function Component() {
           <div>
             <Select
               control={control}
-              name="category"
+              name="categoryId"
               size="large"
               placeholder="Categoría"
               rules={{ required: true }}
-              prefix={<UnorderedListOutlined />}
               className="w-full"
               options={categories.map((a) => ({ value: a.id, label: <span>{a.title}</span> }))}
+            />
+          </div>
+          <div>
+            <Input
+              control={control}
+              name="imageUrl"
+              placeholder="Imagen"
+              prefix={<PictureOutlined />}
+              rules={{ required: true }}
+              size="large"
             />
           </div>
         </div>

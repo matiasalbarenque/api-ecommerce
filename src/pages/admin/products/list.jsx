@@ -1,14 +1,32 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Modal, Table } from 'antd';
 import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
-import { categories, products } from '@assets/mockup';
+import { getCategories } from '@services/categories';
+import { getProducts, deleteProduct } from '@services/products';
 import { priceFormatting } from '@assets/scripts';
 
 export function Component() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
   const idSelected = useRef('');
+
+  useEffect(() => {
+    getCategoriesData();
+    getProductsData();
+  }, []);
+
+  const getCategoriesData = async () => {
+    const data = await getCategories();
+    setCategories(data);
+  };
+
+  const getProductsData = async () => {
+    const data = await getProducts();
+    setProducts(data);
+  };
 
   const newHandler = () => {
     navigate('/admin/products/new');
@@ -23,9 +41,10 @@ export function Component() {
     setIsModalOpen(true);
   };
 
-  const handleModalOk = () => {
-    // Eliminar registro: idSelected.current
+  const handleModalOk = async () => {
+    await deleteProduct(idSelected.current);
     closeModal();
+    getProductsData();
   };
 
   const handleModalCancel = () => {
@@ -70,24 +89,19 @@ export function Component() {
   ];
 
   const productList = [];
-  categories.forEach(cat => {
-    const productByCategory = products.find((a) => a.categoryId === cat.id);
-    if (productByCategory) {
-      const productsListTemp = productByCategory.items.map(({ imageUrl, id, price, ...rest }) => ({
-        key: id,
-        price: `$${priceFormatting(price)}`,
-        category: cat.title,
-        ...rest,
-        actions: (
-          <div className="flex justify-center gap-2">
-            <Button type="primary" size="middle" icon={<EditFilled />} onClick={() => handleEdit(id)} />
-            <Button type="primary" size="middle" icon={<DeleteFilled />} danger onClick={() => handleDelete(id)} />
-          </div>
-        ),
-      }));
-      productList.push(...productsListTemp);
-    }
-  });
+  const productsListTemp = products.map(({ imageUrl, categoryId, id, price, ...rest }) => ({
+    key: id,
+    price: `$${priceFormatting(price)}`,
+    category: categories.find((a) => a.id === categoryId).title,
+    ...rest,
+    actions: (
+      <div className="flex justify-center gap-2">
+        <Button type="primary" size="middle" icon={<EditFilled />} onClick={() => handleEdit(id)} />
+        <Button type="primary" size="middle" icon={<DeleteFilled />} danger onClick={() => handleDelete(id)} />
+      </div>
+    ),
+  }));
+  productList.push(...productsListTemp);
 
   return (
     <div>
