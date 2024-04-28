@@ -1,18 +1,20 @@
 import { Controller } from 'react-hook-form';
 import { Input as InputAnt } from 'antd';
+import { Label } from './label';
 
-const TextArea = (props) => {
-  const { control, name, rows = 5, ...rest } = props;
+export const TextArea = (props) => {
+  const { control, name, label, id, rules, rows = 5, ...rest } = props;
   const { TextArea: TextAreaAnt } = InputAnt;
   return (
     <Controller
       control={control}
       name={name}
       render={({ field, fieldState: { error } }) => (
-        <TextAreaAnt status={error ? 'error' : ''} {...field} {...rest} rows={rows} />
+        <Label label={label} id={id}>
+          <TextAreaAnt status={error ? 'error' : ''} {...field} {...rest} rows={rows} id={id} />
+        </Label>
       )}
-      rules={{ required: true }}
+      rules={rules}
     />
   );
 };
-export default TextArea;

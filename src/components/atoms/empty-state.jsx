@@ -1,6 +1,6 @@
 import { RobotOutlined } from '@ant-design/icons';
 
-const EmptyState = (props) => {
+export const EmptyState = (props) => {
   const { text } = props;
   return (
     <div className="px-6 py-10 w-full flex flex-col items-center gap-8 border rounded-md bg-white">
@@ -13,4 +13,3 @@ const EmptyState = (props) => {
     </div>
   );
 };
-export default EmptyState;

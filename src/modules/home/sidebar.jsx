@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
+import { Icon } from '@atoms/icon';
 
 import { getCategories } from '@services/categories';
 
@@ -16,32 +17,16 @@ export default function Sidebar() {
     setCategories(data);
   };
 
-  const getItem = (label, key, icon, children, type) => {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    };
-  };
-
-  const items = [
-    getItem(
-      'Componentes',
-      'grp',
-      null,
-      categories.map((a) => getItem(<Link to={`/category/${a.id}`}>{a.title}</Link>, a.id)),
-      'group',
-    ),
-  ];
+  const items = categories.map((a) => ({
+    key: a.id,
+    icon: <Icon icon={a.icon} className="!align-[-5px]" />,
+    label: <Link to={`/category/${a.id}`}>{a.title}</Link>,
+  }));
 
   return (
-    <Menu
-      defaultSelectedKeys={['cat1']}
-      items={items}
-      mode="inline"
-      style={{ width: '100%', borderInlineEnd: 'none' }}
-    />
+    <>
+      <span className="p-2 font-medium text-sm text-gray-600">Componentes</span>
+      <Menu items={items} mode="vertical" style={{ width: '100%', borderInlineEnd: 'none' }} />
+    </>
   );
 }

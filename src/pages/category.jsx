@@ -1,34 +1,22 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import EmptyState from '@atoms/empty-state';
-import { priceFormatting } from '@assets/scripts';
+import { useParams } from 'react-router-dom';
+import { EmptyState } from '@atoms/empty-state';
+import { ProductCard } from '@organisms/product-card';
 
-import Card from '@molecules/card';
 import AsideContent from '../modules/home/sidebar';
 import { getProducts } from '@services/products';
 
 const productCardList = (products) => {
-  if (products.length === 0) {
-    return <EmptyState text="No existen productos disponibles para mostrar" />;
+  if (products.length > 0) {
+    return (
+      <div className="w-full grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
+        {products.map((a) => (
+          <ProductCard {...a} key={a.id} />
+        ))}
+      </div>
+    );
   }
-
-  return (
-    <div className="w-full grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
-      {products.map((a) => (
-        <Card key={a.id} btnText="Ver producto" btnUrl={`/product/${a.id}`} imageUrl={a.imageUrl} imageAlt={a.title}>
-          <div className="flex flex-col">
-            <div className="h-12 overflow-hidden">
-              <Link to={`/product/${a.id}`}>
-                <h2 className="hover:text-amber-500">{a.title}</h2>
-              </Link>
-            </div>
-            <span className="leading-6 text-slate-500 text-sm">Stock: {a.stock}</span>
-            <h3 className="font-semibold text-xl">${priceFormatting(a.price)}</h3>
-          </div>
-        </Card>
-      ))}
-    </div>
-  );
+  return <EmptyState text="No existen productos disponibles para mostrar" />;
 };
 
 export function Component() {
