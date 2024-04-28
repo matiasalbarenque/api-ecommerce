@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
 
-import Card from '@molecules/card';
+import { Card } from '@molecules/card';
 import AsideContent from '../modules/home/sidebar';
 import { getCategories } from '@services/categories';
 

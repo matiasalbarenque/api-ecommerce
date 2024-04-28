@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'antd';
 
-export default function Card(props) {
+export const Card = (props) => {
   const { btnText, btnUrl, imageAlt, imageUrl, children } = props;
   const navigate = useNavigate();
 
@@ -22,4 +22,4 @@ export default function Card(props) {
       <div className="p-3 border-t border-gray-200">{children}</div>
     </div>
   );
-}
+};

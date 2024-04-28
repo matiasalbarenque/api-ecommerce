@@ -3,9 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
 import { DollarOutlined, EditOutlined, InboxOutlined, PictureOutlined, SaveOutlined } from '@ant-design/icons';
-import Input from '@atoms/input';
-import Textarea from '@atoms/textarea';
-import Select from '@atoms/select';
+import { Input } from '@atoms/input';
+import { TextArea } from '@atoms/textarea';
+import { Select } from '@atoms/select';
 import { useAuth } from '@hooks/use-auth';
 import { getCategories } from '@services/categories';
 import { getProduct, postProduct, putProduct } from '@services/products';
@@ -134,7 +134,7 @@ export function Component() {
           </div>
         </div>
         <div>
-          <Textarea
+          <TextArea
             control={control}
             name="description"
             placeholder="Descripción del producto..."

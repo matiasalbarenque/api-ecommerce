@@ -4,7 +4,7 @@ import { Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Header from '../header';
 import Main from './main';
-import Input from '@atoms/input';
+import { Input } from '@atoms/input';
 
 const SearchNavbar = () => {
   const navigate = useNavigate();

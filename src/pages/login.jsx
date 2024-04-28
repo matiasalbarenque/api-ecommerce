@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button } from 'antd';
 import { LoginOutlined, UserOutlined, KeyOutlined } from '@ant-design/icons';
-import Input from '@atoms/input';
+import { Input } from '@atoms/input';
 import { useAuth } from '@hooks/use-auth';
 import { login } from '@services/auth';
 
