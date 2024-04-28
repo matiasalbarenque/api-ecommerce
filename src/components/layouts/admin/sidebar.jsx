@@ -1,11 +1,9 @@
 import { Menu } from 'antd';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { adminScreens } from '@assets/mockup';
 
 export default function Sidebar() {
-  const navigate = useNavigate();
-
   const getItem = (label, key, icon, children, type) => {
     return {
       key,

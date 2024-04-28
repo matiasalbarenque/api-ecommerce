@@ -2,21 +2,18 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
-import {
-  DollarOutlined,
-  EditOutlined,
-  InboxOutlined,
-  PictureOutlined,
-  SaveOutlined,
-} from '@ant-design/icons';
+import { DollarOutlined, EditOutlined, InboxOutlined, PictureOutlined, SaveOutlined } from '@ant-design/icons';
 import Input from '@atoms/input';
+import Textarea from '@atoms/textarea';
 import Select from '@atoms/select';
+import { useAuth } from '@hooks/use-auth';
 import { getCategories } from '@services/categories';
 import { getProduct, postProduct, putProduct } from '@services/products';
 
 export function Component() {
   const navigate = useNavigate();
   const params = useParams();
+  const { user } = useAuth();
   const [categories, setCategories] = useState([]);
 
   const { control, formState, handleSubmit, reset } = useForm({
@@ -26,6 +23,7 @@ export function Component() {
       price: '',
       imageUrl: '',
       stock: '',
+      description: '',
       categoryId: null,
     },
     shouldUnregister: true,
@@ -53,12 +51,17 @@ export function Component() {
         stock: data.stock,
         imageUrl: data.imageUrl,
         title: data.title,
+        description: data.description,
         categoryId: data.categoryId,
       });
     }
   };
 
-  const onSubmit = async (formData) => {
+  const onSubmit = async (formDataRaw) => {
+    const formData = {
+      ...formDataRaw,
+      userSellerId: user.id,
+    };
     if (params.id === 'new') {
       postProduct(formData);
     } else {
@@ -72,61 +75,72 @@ export function Component() {
       <h1 className="font-light text-4xl tracking-wide leading-relaxed">
         {params.id === 'new' ? 'Creación de Producto' : 'Edición de Producto'}
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 mt-4">
-          <div>
-            <Input
-              control={control}
-              name="title"
-              placeholder="Nombre del producto"
-              prefix={<EditOutlined />}
-              rules={{ required: true }}
-              size="large"
-            />
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 mt-4">
+            <div>
+              <Input
+                control={control}
+                name="title"
+                placeholder="Nombre del producto"
+                prefix={<EditOutlined />}
+                rules={{ required: true }}
+                size="large"
+              />
+            </div>
+            <div>
+              <Input
+                control={control}
+                name="price"
+                placeholder="Precio del producto"
+                prefix={<DollarOutlined />}
+                rules={{ required: true }}
+                size="large"
+                type="number"
+              />
+            </div>
+            <div>
+              <Input
+                control={control}
+                name="stock"
+                placeholder="Stock del producto"
+                prefix={<InboxOutlined />}
+                rules={{ required: true }}
+                size="large"
+                type="number"
+              />
+            </div>
+            <div>
+              <Select
+                control={control}
+                name="categoryId"
+                size="large"
+                placeholder="Categoría"
+                rules={{ required: true }}
+                className="w-full"
+                options={categories.map((a) => ({ value: a.id, label: <span>{a.title}</span> }))}
+              />
+            </div>
+            <div>
+              <Input
+                control={control}
+                name="imageUrl"
+                placeholder="Imagen"
+                prefix={<PictureOutlined />}
+                rules={{ required: true }}
+                size="large"
+              />
+            </div>
           </div>
-          <div>
-            <Input
-              control={control}
-              name="price"
-              placeholder="Precio del producto"
-              prefix={<DollarOutlined />}
-              rules={{ required: true }}
-              size="large"
-              type="number"
-            />
-          </div>
-          <div>
-            <Input
-              control={control}
-              name="stock"
-              placeholder="Stock del producto"
-              prefix={<InboxOutlined />}
-              rules={{ required: true }}
-              size="large"
-              type="number"
-            />
-          </div>
-          <div>
-            <Select
-              control={control}
-              name="categoryId"
-              size="large"
-              placeholder="Categoría"
-              rules={{ required: true }}
-              className="w-full"
-              options={categories.map((a) => ({ value: a.id, label: <span>{a.title}</span> }))}
-            />
-          </div>
-          <div>
-            <Input
-              control={control}
-              name="imageUrl"
-              placeholder="Imagen"
-              prefix={<PictureOutlined />}
-              rules={{ required: true }}
-              size="large"
-            />
-          </div>
+        </div>
+        <div>
+          <Textarea
+            control={control}
+            name="description"
+            placeholder="Descripción del producto..."
+            rules={{ required: true }}
+            size="large"
+          />
         </div>
         <div className="mt-6">
           <Button icon={<SaveOutlined />} htmlType="submit" size="large" type="primary" disabled={!isFormValid}>

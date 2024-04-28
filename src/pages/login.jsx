@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
+import { Alert, Button } from 'antd';
 import { LoginOutlined, UserOutlined, KeyOutlined } from '@ant-design/icons';
 import Input from '@atoms/input';
+import { useAuth } from '@hooks/use-auth';
+import { login } from '@services/auth';
 
 const LoginForm = (props) => {
-  const { control, handleSubmit, isFormValid, onSubmit } = props;
+  const { control, handleSubmit, isFormValid, onSubmit, hasLoginError } = props;
   const navigate = useNavigate();
 
   const signupHandler = () => {
@@ -13,10 +16,10 @@ const LoginForm = (props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
       <Input
         control={control}
-        name="user"
+        name="email"
         placeholder="Ingrese su email"
         prefix={<UserOutlined />}
         rules={{ required: true }}
@@ -32,30 +35,48 @@ const LoginForm = (props) => {
         rules={{ required: true }}
         prefix={<KeyOutlined />}
       />
-      <Button
-        className="mt-3"
-        disabled={!isFormValid}
-        htmlType="submit"
-        icon={<LoginOutlined />}
-        shape="round"
-        size="large"
-        type="primary"
-      >
-        Ingresar
-      </Button>
-      <Button icon={<LoginOutlined />} shape="round" size="large" type="default" onClick={signupHandler}>
-        Ir al registro
-      </Button>
+      {hasLoginError && (
+        <Alert
+          type="error"
+          description="El usuario no existe en el sistema. Verifique los datos ingresados e intente nuevamente."
+          showIcon
+        />
+      )}
+      <div className="flex gap-4">
+        <Button
+          shape="default"
+          size="large"
+          type="default"
+          onClick={signupHandler}
+          className="w-full !h-14"
+        >
+          Ir al registro
+        </Button>
+        <Button
+          disabled={!isFormValid}
+          htmlType="submit"
+          icon={<LoginOutlined />}
+          shape="default"
+          size="large"
+          type="primary"
+          className="w-full !h-14"
+        >
+          Ingresar
+        </Button>
+      </div>
     </form>
   );
 };
 
 export function Component() {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
+  const [hasLoginError, setHasLoginError] = useState(false);
+
   const { control, formState, handleSubmit } = useForm({
     mode: 'onChange',
     defaultValues: {
-      user: '',
+      email: '',
       password: '',
     },
     shouldUnregister: true,
@@ -64,8 +85,24 @@ export function Component() {
   const isFormValid = Object.keys(formState.errors).length === 0;
 
   const onSubmit = async (formData) => {
-    // TODO: Si es usuario ir a la home, sinó a /admin
-    if (formData.user === 'admin@gmail.com') {
+    const [loginData] = await login(formData);
+    if (!loginData) {
+      setHasLoginError(true);
+      return;
+    }
+
+    // Setea datos de sesión en el contexto Auth
+    // para usarlo en distintas partes de la App
+    setUser({
+      email: loginData.email,
+      firstName: loginData.firstName,
+      id: loginData.id,
+      isLogged: true,
+      lastName: loginData.lastName,
+      userType: loginData.userType,
+    });
+
+    if (loginData.userType === 'seller') {
       navigate('/admin');
     } else {
       navigate('/');
@@ -73,8 +110,8 @@ export function Component() {
   };
 
   return (
-    <main className="w-full min-h-dvh flex justify-center items-center bg-slate-300">
-      <div className="p-6 w-full max-w-sm bg-white rounded-lg shadow-md">
+    <main className="w-full min-h-dvh flex justify-center items-center bg-pattern">
+      <div className="px-6 py-8 w-full max-w-sm bg-white rounded-lg border border-gray-300">
         <div className="flex flex-col gap-6">
           <div className="w-full flex justify-center">
             <Link to="/">
@@ -82,9 +119,15 @@ export function Component() {
             </Link>
           </div>
           <div className="text-center">
-            <h1 className="text-2xl">Registro de usuario</h1>
+            <h1 className="text-2xl">Inicio de sesión</h1>
           </div>
-          <LoginForm control={control} handleSubmit={handleSubmit} isFormValid={isFormValid} onSubmit={onSubmit} />
+          <LoginForm
+            control={control}
+            handleSubmit={handleSubmit}
+            isFormValid={isFormValid}
+            onSubmit={onSubmit}
+            hasLoginError={hasLoginError}
+          />
         </div>
       </div>
     </main>

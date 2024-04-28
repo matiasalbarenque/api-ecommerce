@@ -42,7 +42,8 @@ export function Component() {
   const getProductsData = async () => {
     const data = await getProducts();
     const productsByCategoryId = data.filter((a) => a.categoryId.toString() === params.id);
-    setProducts(productsByCategoryId);
+    const productListFilteredByStock = productsByCategoryId.filter((a) => a.stock > 0);
+    setProducts(productListFilteredByStock);
   };
 
   return (

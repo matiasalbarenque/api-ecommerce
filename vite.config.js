@@ -22,6 +22,7 @@ export default defineConfig({
       '@molecules': dir('./src/components/molecules'),
       '@organisms': dir('./src/components/organisms'),
       '@services': dir('./src/services'),
+      '@providers': dir('./src/providers'),
     },
   },
 });
