@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Modal, Table } from 'antd';
 import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
+import { useAuth } from '@hooks/use-auth';
 import { getCategories } from '@services/categories';
 import { getProducts, deleteProduct } from '@services/products';
 import { priceFormatting } from '@assets/scripts';
 
 export function Component() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
@@ -89,7 +91,8 @@ export function Component() {
   ];
 
   const productList = [];
-  const productsListTemp = products.map(({ imageUrl, categoryId, id, price, ...rest }) => ({
+  const productListFilteredByUserSellerId = products.filter((a) => a.userSellerId === user.id);
+  const productsListTemp = productListFilteredByUserSellerId.map(({ imageUrl, categoryId, id, price, ...rest }) => ({
     key: id,
     price: `$${priceFormatting(price)}`,
     category: categories.find((a) => a.id === categoryId).title,

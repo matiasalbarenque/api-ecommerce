@@ -38,10 +38,10 @@ export default function Sidebar() {
 
   return (
     <Menu
-      style={{ width: '100%', borderInlineEnd: 'none' }}
       defaultSelectedKeys={['cat1']}
-      mode="inline"
       items={items}
+      mode="inline"
+      style={{ width: '100%', borderInlineEnd: 'none' }}
     />
   );
 }

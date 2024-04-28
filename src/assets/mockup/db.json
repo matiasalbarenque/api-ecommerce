@@ -54,6 +54,11 @@
       "id": 11,
       "title": "Tarjeta de red (Ethernet/Wi-Fi)",
       "imageUrl": "https://media.owcnow.com/image/upload/w_1400,f_auto,q_auto/owc-10g-ethernet-pcie-network-card-hero-left"
+    },
+    {
+      "id": 12,
+      "title": "Monitores",
+      "imageUrl": "https://s3-sa-east-1.amazonaws.com/saasargentina/j4DpPMMwYTAnprKIyW0N/imagen"
     }
   ],
   "products": [
@@ -63,6 +68,8 @@
       "stock": 30,
       "categoryId": 2,
       "imageUrl": "https://thumb.pccomponentes.com/w-530-530/articles/1066/10665103/1575-amd-ryzen-7-7800x3d-42-ghz-5-ghz.jpg",
+      "description": "Sobre el producto\n\nEl procesador para juegos que domina el mundo de la mano de la tecnología AMD 3D V-Cache™, para ganar aún más rendimiento de juego. Sin importar la configuración ni la resolución que uses, lleva a tu equipo a la victoria con este maravilloso procesador para juegos. Disfruta, además, las ventajas de AMD 3D V-Cache™, la tecnología de punta que es sinónimo de latencia baja y mucho rendimiento de juego.\n\nEspecificaciones:\n\n- Fabricante de procesador: AMD\n- Modelo del procesador: 7800X3D\n- Frecuencia base del procesador: 4,2 GHz\n- Familia de procesador: AMD Ryzen™ 7\n- Número de núcleos de procesador: 8\n- Socket de procesador: Zócalo AM5\n- Litografía del procesador: 5 nm\n- Número de hilos de ejecución: 16\n- Frecuencia del procesador turbo: 5 GHz\n- Caché del procesador: 96 MB\n- Tipo de cache en procesador: L3\n- Potencia de diseño térmico (TDP): 120 W\n- Caja: Si\n- Refrigerador incluido: No",
+      "userSellerId": 1,
       "id": 1
     },
     {
@@ -71,15 +78,36 @@
       "stock": "27",
       "categoryId": 2,
       "imageUrl": "https://thumb.pccomponentes.com/w-530-530/articles/32/328473/168-amd-ryzen-7-5800x-38ghz.jpg",
-      "id": 2
+      "id": 2,
+      "userSellerId": 1
     },
     {
       "title": "Intel Core i5-12400F 2.5 GHz",
-      "price": 330000,
+      "price": "330100",
       "stock": 18,
       "categoryId": 2,
       "imageUrl": "https://thumb.pccomponentes.com/w-530-530/articles/83/834922/1636-intel-core-i5-12400f-44-ghz.jpg",
+      "userSellerId": 3,
       "id": 3
+    },
+    {
+      "title": "Corsair Vengeance RGB Pro DDR4 3200 PC4-25600 32GB 2x16GB CL16",
+      "price": "120000",
+      "stock": "14",
+      "categoryId": 5,
+      "imageUrl": "https://thumb.pccomponentes.com/w-530-530/articles/35/351295/1838-corsair-vengeance-rgb-pro-ddr4-3200-pc4-25600-32gb-2x16gb-cl16.jpg",
+      "userSellerId": 1,
+      "id": 4
+    },
+    {
+      "title": "ASUS ROG STRIX X670E-E GAMING WIFI",
+      "price": "550000",
+      "stock": "9",
+      "categoryId": 1,
+      "imageUrl": "https://thumb.pccomponentes.com/w-530-530/articles/1058/10586043/1146-asus-rog-strix-x670e-e-gaming-wifi.jpg",
+      "description": "Sobre el producto\n\nEl WiFi para juegos ROG Strix X670E-E se encuentra en la parte superior de la serie, con una entrega de energía robusta y herramientas exclusivas de overclocking ROG para maximizar las estadísticas de los procesadores AMD Ryzen ™ 7000 Series. La compatibilidad con PCIe 5.0 se extiende hasta los confines de las capacidades del conjunto de chips, y se prepara un disipador térmico adicional para mantener refrigeradas incluso las unidades M.2 más rápidas. Con un rendimiento líder, la última conectividad y funciones fáciles de usar que abarcan desde la instalación del hardware hasta la configuración del sistema, esta bestia Strix se agarra a AM5 y se eleva sin esfuerzo hacia la victoria.\n\nCaracterísticas:\n\n- RANURA PCIE® Q-RELEASE: Un botón físico desbloquea el pestillo de seguridad de la primera ranura PCIe con una simple presión, lo que simplifica en gran medida el proceso de extracción de una tarjeta PCIe de la placa base cuando es el momento de actualizar a una nueva GPU o tarjeta adicional.\n\n- RENDIMIENTO TOTAL: La entrega de energía robusta, las herramientas de overclocking innovadoras y los controles de enfriamiento integrales son los fundamentos básicos del ROG Strix X670E-A, que le brindan todo lo necesario para navegar y flexionar con AMD Ryzen ™ 7000 en su construcción.\n\n- CONECTIVIDAD LÍDER: El WiFi para juegos ROG Strix X670E-F ofrece una gran cantidad de conectividad interna y externa para redes de baja latencia y transferencias de datos ultrarrápidas. Esas ventajas se unen a una solución de audio avanzada que te permite seleccionar las señales más pequeñas y concentrarte en tus oponentes.\n\n- JUEGA CON ESTILO: Una llamativa estética plateada y blanca con iluminación RGB complementaria ofrece una construcción que se destaca en todos los sentidos. Combine el Strix X670E-F con otros productos del diverso ecosistema ROG para crear una configuración de juego totalmente personalizada que refleje su estilo personal.\n\n- UTILIDADES DE SOFTWARE: El software exclusivo de ROG ofrece sintonización de audio intuitiva y mejoras de juego para que pueda configurar su juego de la manera que desee.",
+      "userSellerId": 3,
+      "id": 5
     }
   ],
   "user_types": [
@@ -92,6 +120,32 @@
       "id": 2,
       "userType": "buyer",
       "description": "Comprador"
+    }
+  ],
+  "users": [
+    {
+      "firstName": "Juan",
+      "lastName": "Perez",
+      "email": "seller1@gmail.com",
+      "password": "abc123",
+      "userType": "seller",
+      "id": 1
+    },
+    {
+      "firstName": "Laura",
+      "lastName": "Lopez",
+      "email": "buyer1@gmail.com",
+      "password": "abc123",
+      "userType": "buyer",
+      "id": 2
+    },
+    {
+      "firstName": "Lucas",
+      "lastName": "Bonato",
+      "email": "seller2@gmail.com",
+      "password": "abc123",
+      "userType": "seller",
+      "id": 3
     }
   ]
 }

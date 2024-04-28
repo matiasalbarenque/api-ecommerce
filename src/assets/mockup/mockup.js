@@ -4,9 +4,9 @@ export const adminScreens = [
     screen: 'products',
     description: "Productos",
   },
-  {
-    id: 2,
-    screen: 'users',
-    description: "Usuarios",
-  },
+  // {
+  //   id: 2,
+  //   screen: 'users',
+  //   description: "Usuarios",
+  // },
 ];

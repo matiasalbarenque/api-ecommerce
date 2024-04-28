@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,jsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        pattern: "url('/img/pattern.webp')",
+      },
+    },
   },
   plugins: [],
 }
