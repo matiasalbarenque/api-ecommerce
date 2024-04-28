@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { PlusOutlined } from '@ant-design/icons';
 
+import { Icon } from '@atoms/icon';
 import { Card } from '@molecules/card';
 import AsideContent from '../modules/home/sidebar';
 import { getCategories } from '@services/categories';
@@ -35,12 +35,10 @@ export function Component() {
               imageAlt={a.title}
               imageUrl={a.imageUrl}
             >
-              <div className="h-12 overflow-hidden">
-                <Link to={`/category/${a.id}`} className="hover:text-amber-500 group">
+              <Icon icon={a.icon} size={110} className="-top-10 -right-6 absolute text-gray-100" />
+              <div className="h-12 overflow-hidden relative">
+                <Link to={`/category/${a.id}`} className="hover:text-amber-500 group inline-flex">
                   <h2 className="inline-block font-semibold">{a.title}</h2>
-                  <span className="pl-1">
-                    <PlusOutlined className="transition ease-in-out group-hover:rotate-[360deg] duration-700" />
-                  </span>
                 </Link>
               </div>
             </Card>

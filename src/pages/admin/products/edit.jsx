@@ -77,11 +77,13 @@ export function Component() {
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
         <div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 mt-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5 mt-4">
             <div>
               <Input
                 control={control}
+                id="title-id"
                 name="title"
+                label="Nombre"
                 placeholder="Nombre del producto"
                 prefix={<EditOutlined />}
                 rules={{ required: true }}
@@ -91,7 +93,9 @@ export function Component() {
             <div>
               <Input
                 control={control}
+                id="price-id"
                 name="price"
+                label="Precio"
                 placeholder="Precio del producto"
                 prefix={<DollarOutlined />}
                 rules={{ required: true }}
@@ -102,7 +106,9 @@ export function Component() {
             <div>
               <Input
                 control={control}
+                id="stock-id"
                 name="stock"
+                label="Stock"
                 placeholder="Stock del producto"
                 prefix={<InboxOutlined />}
                 rules={{ required: true }}
@@ -113,7 +119,9 @@ export function Component() {
             <div>
               <Select
                 control={control}
+                id="category-id"
                 name="categoryId"
+                label="Categoría"
                 size="large"
                 placeholder="Categoría"
                 rules={{ required: true }}
@@ -124,7 +132,9 @@ export function Component() {
             <div>
               <Input
                 control={control}
+                id="image-id"
                 name="imageUrl"
+                label="Imagen"
                 placeholder="Imagen"
                 prefix={<PictureOutlined />}
                 rules={{ required: true }}
@@ -136,13 +146,15 @@ export function Component() {
         <div>
           <TextArea
             control={control}
+            id="description-id"
             name="description"
+            label="Descripción"
             placeholder="Descripción del producto..."
             rules={{ required: true }}
             size="large"
           />
         </div>
-        <div className="mt-6">
+        <div className="mt-4">
           <Button icon={<SaveOutlined />} htmlType="submit" size="large" type="primary" disabled={!isFormValid}>
             {params.id === 'new' ? 'Crear' : 'Guardar'}
           </Button>

@@ -111,7 +111,7 @@ export function Component() {
 
   return (
     <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[1fr,3fr]">
-      <div className="w-full min-w-[320px] md:h-full p-4 flex flex-col bg-white border rounded-md">
+      <div className="w-full min-w-[320px] h-fit px-4 py-6 flex flex-col bg-white border rounded-md">
         <h2 className="text-xl">Filtros</h2>
         <br />
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">

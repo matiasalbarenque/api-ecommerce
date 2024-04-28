@@ -16,10 +16,12 @@ const LoginForm = (props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <Input
         control={control}
+        id="email-id"
         name="email"
+        label="Correo electrónico"
         placeholder="Ingrese su email"
         prefix={<UserOutlined />}
         rules={{ required: true }}
@@ -28,7 +30,9 @@ const LoginForm = (props) => {
       />
       <Input
         control={control}
+        id="password-id"
         name="password"
+        label="Contraseña"
         type="password"
         size="large"
         placeholder="Ingrese su contraseña"

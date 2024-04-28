@@ -1,6 +1,6 @@
 # UADE - Aplicaciones Interactivas 
 ## Proyecto: Ecommerce (Front-End)
-### Tecnologías: React + Vite + Tailwind CSS + Ant-Design
+### Tecnologías: React, Vite, Tailwind CSS, Ant-Design, React Hook Form
 
 ---
 
@@ -29,6 +29,7 @@ npm run dev
 npm run build
 ```
 
+- Iconos: [Sitio Oficial](https://icones.js.org/)
 - Proyecto Base: [Sitio Oficial](https://vitejs.dev/guide/#scaffolding-your-first-vite-project)
 - Docs de Tailwind: [Sitio Oficial](https://tailwindcss.com/)
 - Docs de Ant-Design: [Sitio Oficial](https://ant.design/)
