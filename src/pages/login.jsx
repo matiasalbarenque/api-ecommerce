@@ -47,13 +47,7 @@ const LoginForm = (props) => {
         />
       )}
       <div className="flex gap-4">
-        <Button
-          shape="default"
-          size="large"
-          type="default"
-          onClick={signupHandler}
-          className="w-full !h-14"
-        >
+        <Button shape="default" size="large" type="default" onClick={signupHandler} className="w-full !h-14">
           Ir al registro
         </Button>
         <Button
@@ -97,13 +91,10 @@ export function Component() {
 
     // Setea datos de sesión en el contexto Auth
     // para usarlo en distintas partes de la App
+    const { password, ...rest } = loginData;
     setUser({
-      email: loginData.email,
-      firstName: loginData.firstName,
-      id: loginData.id,
+      ...rest,
       isLogged: true,
-      lastName: loginData.lastName,
-      userType: loginData.userType,
     });
 
     if (loginData.userType === 'seller') {

@@ -17,6 +17,12 @@ npm install
 npm run json-server
 ```
 
+## Iniciar servidor de data mockup de productos
+
+```bash
+npm run json-server-products
+```
+
 ## Iniciar server de desarrollo
 
 ```bash
