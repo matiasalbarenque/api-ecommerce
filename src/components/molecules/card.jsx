@@ -11,7 +11,7 @@ export const Card = (props) => {
 
   return (
     <div className="w-full bg-white border border-gray-300 rounded-lg flex flex-col overflow-hidden">
-      <div className="relative aspect-square bg-white group">
+      <div className="relative aspect-square bg-white group overflow-hidden">
         <img src={imageUrl} alt={imageAlt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-65 transition-opacity duration-500 opacity-0 group-hover:opacity-100 flex justify-center items-center">
           <Button type="primary" size="large" shape="round" onClick={() => handleButton(btnUrl)}>

@@ -1,5 +1,6 @@
-import { ENV } from '@constants';
-
+const ENV = {
+  API_URL: 'http://localhost:3011',
+};
 const entity = 'products';
 
 export const getProducts = async () => {

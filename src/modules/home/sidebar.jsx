@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Menu } from 'antd';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Icon } from '@atoms/icon';
 
 import { getCategories } from '@services/categories';
@@ -20,7 +20,7 @@ export default function Sidebar() {
   const items = categories.map((a) => ({
     key: a.id,
     icon: <Icon icon={a.icon} className="!align-[-5px]" />,
-    label: <Link to={`/category/${a.id}`}>{a.title}</Link>,
+    label: <NavLink to={`/category/${a.id}`}>{a.title}</NavLink>,
   }));
 
   return (

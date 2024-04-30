@@ -42,18 +42,18 @@ const CartList = () => {
   const { cart, removeItemFromCart } = useCart();
   if (cart.length > 0) {
     return (
-      <div className="w-[400px] flex flex-col gap-2">
-        {cart.map((cartItem, index) => (
-          <div key={`cart${cartItem.id}`}>
-            <CartItem cartItem={cartItem} removeFromCart={removeItemFromCart} />
-            {index < cart.length - 1 && <Divider className="!mb-0 !mt-2" />}
-          </div>
-        ))}
-        <div className="mt-2">
-          <Button type="default" shape="default" icon={<ShoppingCartOutlined />} size="large" className="w-full">
-            Ir al checkout
-          </Button>
+      <div className="flex flex-col gap-4">
+        <div className="w-[400px] max-h-[430px] p-[1px] flex flex-col gap-2 overflow-y-auto">
+          {cart.map((cartItem, index) => (
+            <div key={`cart${cartItem.id}`}>
+              <CartItem cartItem={cartItem} removeFromCart={removeItemFromCart} />
+              {index < cart.length - 1 && <Divider className="!mb-0 !mt-2" />}
+            </div>
+          ))}
         </div>
+        <Button type="default" shape="default" icon={<ShoppingCartOutlined />} size="large" className="w-full">
+          Ir al checkout
+        </Button>
       </div>
     );
   }

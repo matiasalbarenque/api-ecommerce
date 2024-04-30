@@ -1,0 +1,135 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "title": "Placas base",
+      "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-placas_base-500x500-producto.jpg",
+      "icon": "material-symbols:empty-dashboard-sharp"
+    },
+    {
+      "id": 2,
+      "title": "Procesadores",
+      "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-procesadores-500x500-producto.jpg",
+      "icon": "iconoir:cpu"
+    },
+    {
+      "id": 3,
+      "title": "Disco duro (HDD/SSD)",
+      "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-discos_duros-500x500-producto.jpg",
+      "icon": "bi:device-hdd"
+    },
+    {
+      "id": 4,
+      "title": "Tarjeta gráfica (GPU)",
+      "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-tarjetas_graficas-500x500-producto.jpg",
+      "icon": "bi:gpu-card"
+    },
+    {
+      "id": 5,
+      "title": "Memoria RAM",
+      "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-memorias_ram-500x500-producto.jpg",
+      "icon": "ri:ram-2-line"
+    },
+    {
+      "id": 6,
+      "title": "Ventilador/Cooler",
+      "imageUrl": "https://img.pccomponentes.com/pcblog/1690754400000/componetes-refrigeracion-liquida-500x500.png",
+      "icon": "game-icons:computer-fan"
+    },
+    {
+      "id": 7,
+      "title": "Tarjeta de sonido",
+      "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-tarjetas_sonido-500x500-producto.jpg",
+      "icon": "bi:pci-card-sound"
+    },
+    {
+      "id": 8,
+      "title": "Gabinetes",
+      "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-torres_cajas-500x500-producto.jpg",
+      "icon": "ph:computer-tower"
+    },
+    {
+      "id": 9,
+      "title": "Fuente de alimentación (PSU)",
+      "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-fuentes_alimentacion-500x500-producto.jpg",
+      "icon": "mage:electricity"
+    },
+    {
+      "id": 10,
+      "title": "Unidad de DVD / Blu-ray",
+      "imageUrl": "https://thumb.pccomponentes.com/w-530-530/articles/8/84595/lg-ultra-slim-gp57es40-grabadora-externa-dvd-silver-1.jpg",
+      "icon": "mage:compact-disk"
+    },
+    {
+      "id": 11,
+      "title": "Tarjeta de red (Ethernet/WiFi)",
+      "imageUrl": "https://media.owcnow.com/image/upload/w_1400,f_auto,q_auto/owc-10g-ethernet-pcie-network-card-hero-left",
+      "icon": "uil:wifi-router"
+    },
+    {
+      "id": 12,
+      "title": "Monitores",
+      "imageUrl": "https://s3-sa-east-1.amazonaws.com/saasargentina/j4DpPMMwYTAnprKIyW0N/imagen",
+      "icon": "streamline:computer-screen-curve-screen-curved-device-electronics-monitor-diplay-computer"
+    }
+  ],
+  "user_types": [
+    {
+      "id": 1,
+      "userType": "seller",
+      "description": "Vendedor"
+    },
+    {
+      "id": 2,
+      "userType": "buyer",
+      "description": "Comprador"
+    }
+  ],
+  "users": [
+    {
+      "avatarImg": "/avatars/seller1.jpg",
+      "firstName": "Juan",
+      "lastName": "Perez",
+      "email": "seller1@gmail.com",
+      "password": "abc123",
+      "userType": "seller",
+      "id": 1
+    },
+    {
+      "avatarImg": "/avatars/seller2.jpg",
+      "firstName": "Lucas",
+      "lastName": "Bonato",
+      "email": "seller2@gmail.com",
+      "password": "abc123",
+      "userType": "seller",
+      "id": 2
+    },
+    {
+      "avatarImg": "/avatars/seller3.jpg",
+      "firstName": "Natalia",
+      "lastName": "Lipa",
+      "email": "seller3@gmail.com",
+      "password": "abc123",
+      "userType": "seller",
+      "id": 3
+    },
+    {
+      "avatarImg": "/avatars/seller4.jpg",
+      "firstName": "Lenny",
+      "lastName": "Duran",
+      "email": "seller4@gmail.com",
+      "password": "abc123",
+      "userType": "seller",
+      "id": 4
+    },
+    {
+      "avatarImg": "/avatars/buyer1.jpg",
+      "firstName": "Laura Belen",
+      "lastName": "Lopez",
+      "email": "buyer1@gmail.com",
+      "password": "abc123",
+      "userType": "buyer",
+      "id": 5
+    }
+  ]
+}

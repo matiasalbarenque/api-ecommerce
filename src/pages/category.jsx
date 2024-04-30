@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { EmptyState } from '@atoms/empty-state';
+import { Icon } from '@atoms/icon';
 import { ProductCard } from '@organisms/product-card';
 
 import AsideContent from '../modules/home/sidebar';
 import { getProducts } from '@services/products';
+import { getCategories } from '@services/categories';
 
 const productCardList = (products) => {
   if (products.length > 0) {
@@ -22,10 +24,20 @@ const productCardList = (products) => {
 export function Component() {
   const params = useParams();
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategoriesData();
+  }, []);
 
   useEffect(() => {
     getProductsData();
   }, [params.id]);
+
+  const getCategoriesData = async () => {
+    const data = await getCategories();
+    setCategories(data);
+  };
 
   const getProductsData = async () => {
     const data = await getProducts();
@@ -34,6 +46,8 @@ export function Component() {
     setProducts(productListFilteredByStock);
   };
 
+  const productCategory = categories.find((a) => a.id.toString() === params.id);
+
   return (
     <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[1fr,3fr]">
       <div className="w-full min-w-[320px] h-min p-4 flex flex-col bg-white border rounded-md">
@@ -41,7 +55,10 @@ export function Component() {
       </div>
 
       <div className="w-full flex flex-col">
-        <h1 className="mt-4 mb-5 font-normal text-2xl">Listado de productos 📝</h1>
+        <h1 className="mt-4 mb-5 font-normal text-2xl">
+        <Icon icon={productCategory?.icon} size="32" className="inline mr-3 mb-1" />
+        Listado de {productCategory?.title}
+        </h1>
         {productCardList(products)}
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { Menu } from 'antd';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { adminScreens } from '@assets/mockup';
 
@@ -19,7 +19,7 @@ export default function Sidebar() {
       'Secciones',
       'grp',
       null,
-      adminScreens.map((a) => getItem(<Link to={`/admin/${a.screen}`}>{a.description}</Link>, a.id)),
+      adminScreens.map((a) => getItem(<NavLink to={`/admin/${a.screen}`}>{a.description}</NavLink>, a.id)),
       'group',
     ),
   ];

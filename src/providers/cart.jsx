@@ -5,7 +5,6 @@ const defaultValues = [];
 export const CartContext = createContext({
   cart: defaultValues,
   setCart: () => null,
-  emptyCart: () => null,
 });
 
 const CartProvider = (props) => {
@@ -19,11 +18,7 @@ const CartProvider = (props) => {
     setCart(JSON.parse(cartData) || []);
   }, []);
 
-  const emptyCart = () => {
-    setCart(defaultValues);
-  };
-
-  return <CartContext.Provider value={{ cart, setCart, emptyCart }}>{children}</CartContext.Provider>;
+  return <CartContext.Provider value={{ cart, setCart }}>{children}</CartContext.Provider>;
 };
 
 export default CartProvider;
