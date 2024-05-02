@@ -3,9 +3,9 @@ const ENV = {
 };
 const entity = 'products';
 
-export const getProducts = async () => {
+export const getProducts = async (q = '') => {
   try {
-    const response = await fetch(`${ENV.API_URL}/${entity}`);
+    const response = await fetch(`${ENV.API_URL}/${entity}${q}`);
     const data = await response.json();
     return data;
   } catch {

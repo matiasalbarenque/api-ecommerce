@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button } from 'antd';
-import { LoginOutlined, UserOutlined, KeyOutlined } from '@ant-design/icons';
+import { LoginOutlined, UserOutlined } from '@ant-design/icons';
+import { Icon } from '@atoms/icon';
 import { Input } from '@atoms/input';
 import { useAuth } from '@hooks/use-auth';
 import { login } from '@services/auth';
@@ -37,7 +38,7 @@ const LoginForm = (props) => {
         size="large"
         placeholder="Ingrese su contraseña"
         rules={{ required: true }}
-        prefix={<KeyOutlined />}
+        prefix={<Icon icon="material-symbols-light:vpn-key-outline-rounded" />}
       />
       {hasLoginError && (
         <Alert
@@ -110,7 +111,7 @@ export function Component() {
         <div className="flex flex-col gap-6">
           <div className="w-full flex justify-center">
             <Link to="/">
-              <img src="/logo.svg" alt="Logo" width="48" height="48" />
+              <img src="/icon.svg" alt="Logo" width="64" height="64" />
             </Link>
           </div>
           <div className="text-center">

@@ -28,6 +28,7 @@ export const useCart = () => {
         },
       ];
     }
+
     setCart(cartData);
     localStorage.setItem('cart', JSON.stringify(cartData));
   };
@@ -40,6 +41,7 @@ export const useCart = () => {
 
   const emptyCart = () => {
     setCart([]);
+    localStorage.removeItem('cart');
   };
 
   return {

@@ -33,6 +33,10 @@ body {
   list-style-type: disc;
 }
 
+.product-detail li {
+  word-break: break-word;
+}
+
 .product-detail .embed-responsive > iframe {
   width: 100%;
   aspect-ratio: 8 / 5;

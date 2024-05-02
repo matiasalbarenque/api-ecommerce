@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Badge, Button, Divider, Dropdown } from 'antd';
 import { CloseCircleOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useCart } from '@hooks/use-cart';
@@ -40,6 +40,12 @@ const CartItem = (props) => {
 
 const CartList = () => {
   const { cart, removeItemFromCart } = useCart();
+  const navigate = useNavigate();
+
+  const goToCheckout = () => {
+    navigate('/checkout');
+  };
+
   if (cart.length > 0) {
     return (
       <div className="flex flex-col gap-4">
@@ -51,7 +57,14 @@ const CartList = () => {
             </div>
           ))}
         </div>
-        <Button type="default" shape="default" icon={<ShoppingCartOutlined />} size="large" className="w-full">
+        <Button
+          type="default"
+          shape="default"
+          icon={<ShoppingCartOutlined />}
+          size="large"
+          className="w-full"
+          onClick={goToCheckout}
+        >
           Ir al checkout
         </Button>
       </div>
