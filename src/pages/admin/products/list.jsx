@@ -26,7 +26,7 @@ export function Component() {
   };
 
   const getProductsData = async () => {
-    const data = await getProducts();
+    const data = await getProducts(`?userSellerId=${user.id}`);
     setProducts(data);
   };
 
@@ -91,8 +91,7 @@ export function Component() {
   ];
 
   const productList = [];
-  const productListFilteredByUserSellerId = products.filter((a) => a.userSellerId === user.id);
-  const productsListTemp = productListFilteredByUserSellerId.map(({ imageUrl, categoryId, id, price, ...rest }) => ({
+  const productsListTemp = products.map(({ imageUrl, categoryId, id, price, ...rest }) => ({
     key: id,
     price: `$${priceFormatting(price)}`,
     category: categories.find((a) => a.id === categoryId).title,

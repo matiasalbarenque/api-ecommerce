@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, ShoppingOutlined } from '@ant-design/icons';
 import { useCart } from '@hooks/use-cart'; // Custom hook
 import { InputNumber } from '@atoms/input-number';
 import { getProduct } from '@services/products';
@@ -26,6 +26,14 @@ const ProductDetail = (props) => {
 
 const ProductPricing = (props) => {
   const { control, handleSubmit, onSubmit, product } = props;
+  const navigate = useNavigate();
+
+  const handleBuy = () => {
+    setTimeout(() => {
+      navigate('/checkout');
+    }, 50);
+  };
+
   if (product) {
     return (
       <div className="flex flex-col gap-6">
@@ -48,16 +56,29 @@ const ProductPricing = (props) => {
               max={product?.stock}
             />
           )}
-          <Button
-            type="primary"
-            htmlType="submit"
-            size="large"
-            className="!h-14"
-            icon={<ShoppingCartOutlined />}
-            disabled={product.stock === 0}
-          >
-            Agregar al carrito
-          </Button>
+          <div className="flex flex-col gap-3">
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="large"
+              className="!h-14"
+              icon={<ShoppingOutlined />}
+              disabled={product.stock === 0}
+              onClick={() => handleBuy()}
+            >
+              Comprar
+            </Button>
+            <Button
+              type="default"
+              htmlType="submit"
+              size="large"
+              className="!h-14"
+              icon={<ShoppingCartOutlined />}
+              disabled={product.stock === 0}
+            >
+              Agregar al carrito
+            </Button>
+          </div>
         </form>
       </div>
     );
@@ -92,7 +113,7 @@ export function Component() {
   };
 
   return (
-    <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[5fr,2fr]">
+    <div className="w-full grid gap-4 grid-cols-1 lg:grid-cols-[5fr,2fr]">
       <div className="product-detail w-full md:min-h-[70%] p-6 flex flex-col bg-white border rounded-md font-open-sans">
         <ProductDetail product={product} />
       </div>

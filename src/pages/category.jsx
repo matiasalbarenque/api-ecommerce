@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Badge } from 'antd';
 import { EmptyState } from '@atoms/empty-state';
 import { Icon } from '@atoms/icon';
 import { ProductCard } from '@organisms/product-card';
@@ -8,12 +9,25 @@ import AsideContent from '../modules/home/sidebar';
 import { getProducts } from '@services/products';
 import { getCategories } from '@services/categories';
 
+const BadgeRibbon = (props) => {
+  const { children, stock } = props;
+  if (stock === 0) {
+    return <Badge.Ribbon color="red" text="Sin Stock">{children}</Badge.Ribbon>;
+  }
+  if (stock <= 10) {
+    return <Badge.Ribbon color="orange" text="Bajo Stock">{children}</Badge.Ribbon>;
+  }
+  return <>{children}</>;
+};
+
 const productCardList = (products) => {
   if (products.length > 0) {
     return (
       <div className="w-full grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
         {products.map((a) => (
-          <ProductCard {...a} key={a.id} />
+          <BadgeRibbon stock={a.stock} key={a.id}>
+            <ProductCard {...a} />
+          </BadgeRibbon>
         ))}
       </div>
     );
@@ -40,10 +54,9 @@ export function Component() {
   };
 
   const getProductsData = async () => {
-    const data = await getProducts();
-    const productsByCategoryId = data.filter((a) => a.categoryId.toString() === params.id);
-    const productListFilteredByStock = productsByCategoryId.filter((a) => a.stock > 0);
-    setProducts(productListFilteredByStock);
+    const data = await getProducts(`?categoryId=${params.id}`);
+    //const productListFilteredByStock = data.filter((a) => a.stock > 0); // Ocultar productos sin stock
+    setProducts(data);
   };
 
   const productCategory = categories.find((a) => a.id.toString() === params.id);
@@ -56,8 +69,8 @@ export function Component() {
 
       <div className="w-full flex flex-col">
         <h1 className="mt-4 mb-5 font-normal text-2xl">
-        <Icon icon={productCategory?.icon} size="32" className="inline mr-3 mb-1" />
-        Listado de {productCategory?.title}
+          <Icon icon={productCategory?.icon} size="32" className="inline mr-3 mb-1" />
+          Listado de {productCategory?.title}
         </h1>
         {productCardList(products)}
       </div>

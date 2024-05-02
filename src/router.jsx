@@ -9,6 +9,7 @@ export const router = createBrowserRouter(
         <Route index lazy={() => import('./pages/home')} />
         <Route path="category/:id" lazy={() => import('./pages/category')} />
         <Route path="product/:id" lazy={() => import('./pages/product')} />
+        <Route path="checkout" lazy={() => import('./pages/checkout')} />
         <Route path="search" lazy={() => import('./pages/search')} />
       </Route>
       <Route path="/login" lazy={() => import('./pages/login')} />

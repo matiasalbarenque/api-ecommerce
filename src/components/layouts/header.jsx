@@ -8,7 +8,7 @@ export default function Header(props) {
     <header className="p-3 bg-white border-b flex justify-between gap-5 sticky top-0 z-10">
       <div className="flex items-center">
         <Link to="/">
-          <img src="/logo.svg" alt="Logo" width="32" height="32" />
+          <img src="/icon.svg" alt="Logo" width="38" height="38" />
         </Link>
       </div>
 
