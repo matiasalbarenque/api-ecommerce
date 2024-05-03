@@ -43,7 +43,7 @@ const LoginForm = (props) => {
       {hasLoginError && (
         <Alert
           type="error"
-          description="El usuario no existe en el sistema. Verifique los datos ingresados e intente nuevamente."
+          description="El usuario no existe en el sistema. Verifique los datos ingresados e intente nuevamente"
           showIcon
         />
       )}
