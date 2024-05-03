@@ -48,6 +48,4 @@ export function Component() {
       </div>
     </div>
   );
-
-
 }

@@ -2,7 +2,7 @@
   "categories": [
     {
       "id": 1,
-      "title": "Placas base ",
+      "title": "Placas base",
       "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-placas_base-500x500-producto.jpg",
       "icon": "material-symbols:empty-dashboard-sharp"
     },
@@ -14,49 +14,49 @@
     },
     {
       "id": 3,
-      "title": "Disco duro (HDD/SSD) ",
+      "title": "Disco duro (HDD/SSD)",
       "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-discos_duros-500x500-producto.jpg",
       "icon": "bi:device-hdd"
     },
     {
       "id": 4,
-      "title": "Tarjeta gráfica (GPU) ",
+      "title": "Tarjeta gráfica (GPU)",
       "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-tarjetas_graficas-500x500-producto.jpg",
       "icon": "bi:gpu-card"
     },
     {
       "id": 5,
-      "title": "Memorias RAM ",
+      "title": "Memorias RAM",
       "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-memorias_ram-500x500-producto.jpg",
       "icon": "ri:ram-2-line"
     },
     {
       "id": 6,
-      "title": "Ventilador / Cooler ",
+      "title": "Ventilador/Cooler",
       "imageUrl": "https://img.pccomponentes.com/pcblog/1690754400000/componetes-refrigeracion-liquida-500x500.png",
       "icon": "game-icons:computer-fan"
     },
     {
       "id": 7,
-      "title": "Tarjeta de sonido ",
+      "title": "Tarjeta de sonido",
       "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-tarjetas_sonido-500x500-producto.jpg",
       "icon": "bi:pci-card-sound"
     },
     {
       "id": 8,
-      "title": "Gabinete ",
+      "title": "Gabinete",
       "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-torres_cajas-500x500-producto.jpg",
       "icon": "ph:computer-tower"
     },
     {
       "id": 9,
-      "title": "Fuente de alimentación (PSU) ",
+      "title": "Fuente de alimentación (PSU)",
       "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-fuentes_alimentacion-500x500-producto.jpg",
       "icon": "mage:electricity"
     },
     {
       "id": 10,
-      "title": "Unidad de DVD / Blu-ray ",
+      "title": "Unidad de DVD / Blu-ray",
       "imageUrl": "https://thumb.pccomponentes.com/w-530-530/articles/8/84595/lg-ultra-slim-gp57es40-grabadora-externa-dvd-silver-1.jpg",
       "icon": "mage:compact-disk"
     },
@@ -68,7 +68,7 @@
     },
     {
       "id": 12,
-      "title": "Monitores ",
+      "title": "Monitores",
       "imageUrl": "https://s3-sa-east-1.amazonaws.com/saasargentina/j4DpPMMwYTAnprKIyW0N/imagen",
       "icon": "streamline:computer-screen-curve-screen-curved-device-electronics-monitor-diplay-computer"
     }
