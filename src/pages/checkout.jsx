@@ -190,8 +190,7 @@ export function Component() {
         await putProduct(rest.id, body);
       }
       emptyCart();
-      setCartProducts([]); // TODO: borrar al implementar pag: checkout-success
-      // navigate('/checkout-success');
+      navigate('/checkout-success');
     } catch (err) {
       console.log(err);
     }
