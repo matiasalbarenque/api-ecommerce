@@ -18,6 +18,7 @@ export function Component() {
     setCategories(data);
   };
 
+
   return (
     <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[1fr,3fr]">
       <div className="w-full min-w-[320px] h-min p-4 flex flex-col bg-white border rounded-md">
@@ -25,7 +26,7 @@ export function Component() {
       </div>
 
       <div className="w-full flex flex-col">
-        <h1 className="mt-4 mb-5 font-normal text-2xl">Las mejores promos ✨</h1>
+        <h1 className="mt-4 mb-5 font-normal text-2xl">Las mejores promos ✨ </h1>
         <div className="w-full grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
           {categories.map((a) => (
             <Card
@@ -47,4 +48,6 @@ export function Component() {
       </div>
     </div>
   );
+
+  
 }
