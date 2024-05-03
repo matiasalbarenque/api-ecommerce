@@ -47,19 +47,11 @@ export function Component() {
   const isFormValid = Object.keys(formState.errors).length === 0;
 
   useEffect(() => {
-    // Carga los productos al inicio del componente
     getProductsData();
-  }, []);
-
-  useEffect(() => {
-    // Restablece los campos de filtros cuando se cambia el valor del campo de búsqueda
-    if (products.length > 0) {
-      filterProductsBySearch(products);
-    }
   }, [searchQuery]);
 
   const getProductsData = async () => {
-    const productsData = await getProducts();
+    const productsData = await getProducts(`?title_like=${searchQuery}`);
     // filter: deja unicamente productos con stock
     // map: deja unicamente los datos que necesitamos para filtrar
     // sort: ordena por precio de menor a mayor
@@ -72,16 +64,15 @@ export function Component() {
   };
 
   const filterProductsBySearch = (prod) => {
-    const productsFilteredBySearch = prod.filter((a) => a.title.toLowerCase().includes(searchQuery));
-    setProductsBySearch(productsFilteredBySearch);
-    setProductsFiltered(productsFilteredBySearch);
-    const priceRangeMinVal = Math.min(...productsFilteredBySearch.map((a) => Number(a.price)));
-    const priceRangeMaxVal = Math.max(...productsFilteredBySearch.map((a) => Number(a.price)));
+    setProductsBySearch(prod);
+    setProductsFiltered(prod);
+    const priceRangeMinVal = Math.min(...prod.map((a) => Number(a.price)));
+    const priceRangeMaxVal = Math.max(...prod.map((a) => Number(a.price)));
     priceRangeMinValue.current = priceRangeMinVal;
     priceRangeMaxValue.current = priceRangeMaxVal;
     setValue('priceRange', [priceRangeMinVal, priceRangeMaxVal]);
     // Filtro categorías según en resultado de productos
-    getCategoriesData(productsFilteredBySearch);
+    getCategoriesData(prod);
   };
 
   const getCategoriesData = async (productsFilteredBySearch) => {
@@ -124,6 +115,7 @@ export function Component() {
             min={priceRangeMinValue.current}
             max={priceRangeMaxValue.current}
             disabled={isFilteredDisabled}
+            step={100}
             range
           />
           {!isFilteredDisabled && (

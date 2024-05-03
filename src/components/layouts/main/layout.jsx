@@ -23,14 +23,14 @@ const SearchNavbar = () => {
   };
 
   return (
-    <div className="w-full md:max-w-sm">
+    <div className="w-full md:max-w-sm hidden sm:block">
       <form onSubmit={handleSubmit(onSubmit)} className="flex justify-center flex-grow gap-3">
         <Input
           control={control}
           name="search"
           size="large"
           placeholder="Producto a buscar..."
-          rules={{ required: true }}
+          rules={{ required: true, minLength: 3 }}
         />
         <Button htmlType="submit" type="default" disabled={!isFormValid} icon={<SearchOutlined />} size="large">
           Buscar

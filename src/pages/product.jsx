@@ -6,7 +6,7 @@ import { ShoppingCartOutlined, ShoppingOutlined } from '@ant-design/icons';
 import { useCart } from '@hooks/use-cart'; // Custom hook
 import { InputNumber } from '@atoms/input-number';
 import { getProduct } from '@services/products';
-import { priceFormatting } from '@assets/scripts';
+import { priceFormatting, priceWhitDiscount } from '@assets/scripts';
 
 const ProductDetail = (props) => {
   const { product } = props;
@@ -41,7 +41,17 @@ const ProductPricing = (props) => {
           <span className="text-sm text-gray-500 font-open-sans">Nuevo</span>
           <span className="font-semibold text-xl font-open-sans">{product.title}</span>
         </div>
-        <span className="font-light text-4xl">$ {priceFormatting(product.price)}</span>
+        <div>
+          {product.discount > 0 && (
+            <h4 className="line-through font-light text-gray-500">
+              ${priceFormatting(product.price)}
+            </h4>
+          )}
+          <div className="flex items-center gap-2">
+            <span className="font-light text-4xl">$ {priceWhitDiscount(product.price, product.discount)}</span>
+            {product.discount > 0 && <span className="text-green-500 tracking-wide">{product.discount}% OFF</span>}
+          </div>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           {product.stock === 0 ? (
             <span>Sin stock</span>

@@ -3,8 +3,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Divider, Tooltip } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { useCart } from '@hooks/use-cart';
-import { priceFormatting } from '@assets/scripts';
+import { priceFormatting, priceWhitDiscount } from '@assets/scripts';
 import { getProducts, putProduct } from '@services/products';
+
+const CartItemPrice = (props) => {
+  const {
+    cartItem: { price, discount },
+  } = props;
+  return (
+    <>
+      <span className="mr-2 font-medium">${priceWhitDiscount(price, discount)}</span>
+      {discount > 0 && (
+        <span>
+          <span className="px-1 mr-2 text-green-500 text-sm bg-green-50 border border-green-200 rounded whitespace-nowrap">
+            {discount}% OFF
+          </span>
+          <span className="line-through text-sm text-gray-400">${priceFormatting(price)}</span>
+        </span>
+      )}
+    </>
+  );
+};
 
 const CartItemStock = (props) => {
   const { cartItem } = props;
@@ -18,7 +37,9 @@ const CartItemStock = (props) => {
         placement="bottom"
         title="Se restableció la cantidad al stock actual del producto debido a que la cantidad seleccionada superaba el stock disponible."
       >
-        <span className="ml-1 px-1 rounded-lg bg-amber-50 border border-amber-200 cursor-default">{cartItem.stock}</span>
+        <span className="ml-1 px-1 rounded-lg bg-amber-50 border border-amber-200 cursor-default">
+          {cartItem.stock}
+        </span>
       </Tooltip>
     );
   }
@@ -43,7 +64,7 @@ const CartItem = (props) => {
           </div>
           <div>
             <span>Precio unitario: </span>
-            <span className="font-medium">${priceFormatting(cartItem.price)}</span>
+            <CartItemPrice cartItem={cartItem} />
           </div>
           <div>
             <span>Cantidad: {<CartItemStock cartItem={cartItem} />}</span>
@@ -172,7 +193,12 @@ export function Component() {
   };
 
   const productsWithStock = cartProducts.length > 0 ? cartProducts.filter((a) => a.stock > 0) : [];
-  const priceList = productsWithStock.map((a) => a.price * (a.quantityExceedStock ? a.stock : a.quantity)) || [];
+  const priceList =
+    productsWithStock.map((a) => {
+      const finalPrice = priceWhitDiscount(a.price, a.discount, false);
+      const availableStock = a.quantityExceedStock ? a.stock : a.quantity;
+      return finalPrice * availableStock;
+    }) || [];
   const subtotal = priceList.length > 0 ? priceList.reduce((a, b) => a + b) : 0;
 
   const handleBuy = async () => {
