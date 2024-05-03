@@ -19,6 +19,7 @@ export function Component() {
   };
 
 
+  
   return (
     <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[1fr,3fr]">
       <div className="w-full min-w-[320px] h-min p-4 flex flex-col bg-white border rounded-md">
