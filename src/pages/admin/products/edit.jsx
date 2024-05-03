@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
-import { DollarOutlined, EditOutlined, InboxOutlined, PictureOutlined, SaveOutlined } from '@ant-design/icons';
+import {
+  DollarOutlined,
+  EditOutlined,
+  InboxOutlined,
+  PercentageOutlined,
+  PictureOutlined,
+  SaveOutlined,
+} from '@ant-design/icons';
 import { Input } from '@atoms/input';
 import { TextArea } from '@atoms/textarea';
 import { Select } from '@atoms/select';
@@ -20,10 +27,11 @@ export function Component() {
     mode: 'onChange',
     defaultValues: {
       title: '',
-      price: '',
+      price: 0,
       imageUrl: '',
-      stock: '',
+      stock: 0,
       description: '',
+      discount: 0,
       categoryId: null,
     },
     shouldUnregister: true,
@@ -51,6 +59,7 @@ export function Component() {
         stock: data.stock,
         imageUrl: data.imageUrl,
         title: data.title,
+        discount: data.discount || 0,
         description: data.description,
         categoryId: data.categoryId,
       });
@@ -139,6 +148,21 @@ export function Component() {
                 prefix={<PictureOutlined />}
                 rules={{ required: true }}
                 size="large"
+              />
+            </div>
+            <div>
+              <Input
+                control={control}
+                id="discount-id"
+                name="discount"
+                label="Descuento (En porcentaje)"
+                placeholder="Descuento del producto"
+                prefix={<PercentageOutlined />}
+                rules={{ required: true }}
+                size="large"
+                type="number"
+                min="0"
+                max="99"
               />
             </div>
           </div>

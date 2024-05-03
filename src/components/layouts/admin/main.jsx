@@ -8,7 +8,7 @@ export default function Main(props) {
       <aside className="p-3 w-[290px] border-r">
         <AsideContent />
       </aside>
-      <article className="p-4 w-[calc(100%-290px)] bg-slate-50 flex-grow flex flex-col gap-5">{children}</article>
+      <article className="p-4 w-[calc(100%-290px)] bg-gray-50 flex-grow flex flex-col gap-5">{children}</article>
     </main>
   );
 }
