@@ -71,6 +71,18 @@
       "title": "Monitores",
       "imageUrl": "https://s3-sa-east-1.amazonaws.com/saasargentina/j4DpPMMwYTAnprKIyW0N/imagen",
       "icon": "streamline:computer-screen-curve-screen-curved-device-electronics-monitor-diplay-computer"
+    },
+    {
+      "id": 13,
+      "title": "Teclados",
+      "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-teclados-500x500-producto.jpg",
+      "icon": "bi:keyboard"
+    },
+    {
+      "id": 14,
+      "title": "Mouses",
+      "imageUrl": "https://cdn.pccomponentes.com/img/repositorio/familia/familia-ratones-500x500-producto.jpg",
+      "icon": "bi:mouse"
     }
   ],
   "user_types": [
