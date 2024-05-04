@@ -4,6 +4,11 @@ import { CartContext } from '@providers/cart';
 export const useCart = () => {
   const { cart, setCart } = useContext(CartContext);
 
+  const setCartData = (cartData) => {
+    setCart(cartData);
+    localStorage.setItem('cart', JSON.stringify(cartData));
+  };
+
   const addToCart = (product, quantity) => {
     const { description, stock, userSellerId, ...rest } = product;
 
@@ -29,14 +34,19 @@ export const useCart = () => {
       ];
     }
 
-    setCart(cartData);
-    localStorage.setItem('cart', JSON.stringify(cartData));
+    setCartData(cartData);
   };
 
   const removeItemFromCart = (id) => {
-    const newCartData = cart.filter((a) => a.id !== id);
-    setCart(newCartData);
-    localStorage.setItem('cart', JSON.stringify(newCartData));
+    const cartData = cart.filter((a) => a.id !== id);
+    setCartData(cartData);
+  };
+
+  const setCartItemQuantity = (id, quantity) => {
+    const cardData = cart.map((a) => a); // Crea una copia de cart. Si no uso map crea una referencia y no funciona
+    const itemIndexInCart = cart.findIndex((a) => a.id === id);
+    cardData[itemIndexInCart].quantity = quantity;
+    setCartData(cardData);
   };
 
   const emptyCart = () => {
@@ -50,5 +60,6 @@ export const useCart = () => {
     removeItemFromCart,
     emptyCart,
     setCart,
+    setCartItemQuantity,
   };
 };

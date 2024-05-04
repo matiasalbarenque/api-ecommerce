@@ -1,10 +1,36 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Divider, Tooltip } from 'antd';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import { Button, Divider, Space, Tooltip } from 'antd';
+import { CloseCircleOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { useCart } from '@hooks/use-cart';
 import { priceFormatting, priceWhitDiscount } from '@assets/scripts';
 import { getProducts, putProduct } from '@services/products';
+
+const CartItemQuantity = (props) => {
+  const { children, cartItem, setCartItemQuantity } = props;
+
+  const isMinQuantity = cartItem.quantity === 1;
+  const isMaxQuantity = cartItem.quantity === cartItem.stock;
+
+  const handleDecreaseQuantity = () => {
+    if (!isMinQuantity) {
+      setCartItemQuantity(cartItem.id, cartItem.quantity - 1);
+    }
+  };
+  const handleIncreaseQuantity = () => {
+    if (!isMaxQuantity) {
+      setCartItemQuantity(cartItem.id, cartItem.quantity + 1);
+    }
+  };
+
+  return (
+    <Space.Compact className="ml-1 inline-flex items-center">
+      <Button icon={<MinusOutlined />} size="small" onClick={handleDecreaseQuantity} disabled={isMinQuantity} />
+      {children}
+      <Button icon={<PlusOutlined />} size="small" onClick={handleIncreaseQuantity} disabled={isMaxQuantity} />
+    </Space.Compact>
+  );
+};
 
 const CartItemPrice = (props) => {
   const {
@@ -27,9 +53,6 @@ const CartItemPrice = (props) => {
 
 const CartItemStock = (props) => {
   const { cartItem } = props;
-  if (cartItem.stock === 0) {
-    return <span className="ml-1 px-1 rounded-lg bg-red-50 border border-red-200">Sin stock</span>;
-  }
   if (cartItem.quantityExceedStock) {
     return (
       <Tooltip
@@ -37,17 +60,15 @@ const CartItemStock = (props) => {
         placement="bottom"
         title="Se restableció la cantidad al stock actual del producto debido a que la cantidad seleccionada superaba el stock disponible."
       >
-        <span className="ml-1 px-1 rounded-lg bg-amber-50 border border-amber-200 cursor-default">
-          {cartItem.stock}
-        </span>
+        <span className="w-8 bg-amber-50 text-sm font-semibold text-center leading-6">{cartItem.stock}</span>
       </Tooltip>
     );
   }
-  return <span> {cartItem.quantity}</span>;
+  return <span className="w-8 bg-gray-50 text-sm font-semibold text-center leading-6">{cartItem.quantity}</span>;
 };
 
 const CartItem = (props) => {
-  const { cartItem, removeItemFromCart } = props;
+  const { cartItem, removeItemFromCart, setCartItemQuantity } = props;
   return (
     <div className="p-3 flex gap-3 rounded-md hover:bg-amber-50 hover:outline outline-1 hover:outline-amber-200 box-content">
       <div className="w-[64px] h-[64px] shrink-0">
@@ -58,7 +79,7 @@ const CartItem = (props) => {
         </div>
       </div>
       <div className="w-full flex items-center gap-2">
-        <div className="w-full flex flex-col">
+        <div className="w-full flex flex-col gap-1">
           <div>
             <span className="font-semibold text-lg leading-5">{cartItem.title}</span>
           </div>
@@ -67,7 +88,18 @@ const CartItem = (props) => {
             <CartItemPrice cartItem={cartItem} />
           </div>
           <div>
-            <span>Cantidad: {<CartItemStock cartItem={cartItem} />}</span>
+            <span>
+              Cantidad:{' '}
+              {cartItem.stock === 0 ? (
+                <span className="ml-1 px-1 rounded bg-red-50 border border-red-200 text-sm font-semibold">
+                  Sin stock
+                </span>
+              ) : (
+                <CartItemQuantity cartItem={cartItem} setCartItemQuantity={setCartItemQuantity}>
+                  <CartItemStock cartItem={cartItem} />
+                </CartItemQuantity>
+              )}
+            </span>
           </div>
         </div>
         <div className="w-[40px] shrink-0">
@@ -86,12 +118,12 @@ const CartItem = (props) => {
 };
 
 const CartList = (props) => {
-  const { cartProducts, removeItemFromCart } = props;
+  const { cartProducts, removeItemFromCart, setCartItemQuantity } = props;
   return (
     <div className="flex flex-col gap-3">
       {cartProducts.map((item, index) => (
         <div key={`cart${item.id}`}>
-          <CartItem cartItem={item} removeItemFromCart={removeItemFromCart} />
+          <CartItem cartItem={item} removeItemFromCart={removeItemFromCart} setCartItemQuantity={setCartItemQuantity} />
           {index < cartProducts.length - 1 && <Divider className="!mb-0 !mt-2" />}
         </div>
       ))}
@@ -104,7 +136,7 @@ const SidebarContent = (props) => {
   const total = extendedWarranty + subtotal + shipping + tax;
   return (
     <>
-      <div className="w-full p-6 flex flex-col gap-8 bg-white border rounded-md">
+      <div className="w-full min-w-[350px] p-6 flex flex-col gap-8 bg-white border rounded-md">
         <div className="relative h-8 flex justify-center">
           <img src="/img/checkout-aside.png" alt="checkout" width="140" className="absolute -top-20" />
         </div>
@@ -161,7 +193,7 @@ const SidebarContent = (props) => {
 
 export function Component() {
   const navigate = useNavigate();
-  const { cart, removeItemFromCart, emptyCart } = useCart();
+  const { cart, removeItemFromCart, emptyCart, setCartItemQuantity } = useCart();
   const [cartProducts, setCartProducts] = useState([]);
 
   useEffect(() => {
@@ -170,7 +202,7 @@ export function Component() {
     } else {
       navigate('/');
     }
-  }, []);
+  }, [cart]);
 
   const getProductData = async () => {
     const query = cart.map((a) => `&id=${a.id}`).join('');
@@ -229,7 +261,11 @@ export function Component() {
       </div>
       <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[5fr,2fr]">
         <div className="product-detail w-full h-fit min-h-[470px] p-6 flex flex-col bg-white border rounded-md font-open-sans">
-          <CartList cartProducts={cartProducts} removeItemFromCart={removeItemFromCart} />
+          <CartList
+            cartProducts={cartProducts}
+            removeItemFromCart={removeItemFromCart}
+            setCartItemQuantity={setCartItemQuantity}
+          />
         </div>
         <div className="w-full flex flex-col gap-4">
           <SidebarContent
