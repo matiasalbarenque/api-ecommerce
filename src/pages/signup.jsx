@@ -11,7 +11,7 @@ import { getUsers } from '@services/users';
 import { signup } from '@services/auth';
 
 const SignupForm = (props) => {
-  const { control, handleSubmit, isFormValid, onSubmit, userTypes, hasSignupError } = props;
+  const { control, handleSubmit, isFormValid, onSubmit, userTypes, hasSignupError, watch } = props;
   const navigate = useNavigate();
 
   const loginHandler = () => {
@@ -73,10 +73,7 @@ const SignupForm = (props) => {
         prefix={<Icon icon="material-symbols-light:vpn-key-outline-rounded" />}
         rules={{
           required: true,
-          validate: (val) => {
-            console.log(val);
-            return false;
-          },
+          validate: (val) => val === watch('password'),
         }}
       />
       <Select
@@ -97,13 +94,7 @@ const SignupForm = (props) => {
         />
       )}
       <div className="flex gap-4">
-        <Button
-          shape="default"
-          size="large"
-          type="default"
-          onClick={loginHandler}
-          className="w-full !h-14"
-        >
+        <Button shape="default" size="large" type="default" onClick={loginHandler} className="w-full !h-14">
           Ir al login
         </Button>
         <Button
@@ -127,7 +118,7 @@ export function Component() {
   const [userTypes, setUserTypes] = useState([]);
   const [hasSignupError, setHasSignupError] = useState(false);
 
-  const { control, formState, handleSubmit } = useForm({
+  const { control, formState, handleSubmit, watch } = useForm({
     mode: 'onChange',
     defaultValues: {
       email: '',
@@ -182,6 +173,7 @@ export function Component() {
             onSubmit={onSubmit}
             userTypes={userTypes}
             hasSignupError={hasSignupError}
+            watch={watch}
           />
         </div>
       </div>
