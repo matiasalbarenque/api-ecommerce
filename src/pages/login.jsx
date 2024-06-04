@@ -3,10 +3,15 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button } from 'antd';
 import { LoginOutlined, UserOutlined } from '@ant-design/icons';
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
+
+import { APP } from '@constants';
 import { Icon } from '@atoms/icon';
 import { Input } from '@atoms/input';
 import { useAuth } from '@hooks/use-auth';
 import { login } from '@services/auth';
+import { getUserInfo } from '@services/admin/users';
 
 const LoginForm = (props) => {
   const { control, handleSubmit, isFormValid, onSubmit, hasLoginError } = props;
@@ -84,25 +89,36 @@ export function Component() {
   const isFormValid = Object.keys(formState.errors).length === 0;
 
   const onSubmit = async (formData) => {
-    const [loginData] = await login(formData);
-    if (!loginData) {
+    let accessToken = null;
+    let userInfo = null;
+    try {
+      const resp = await login(formData);
+      accessToken = resp.access_token;
+      userInfo = await getUserInfo(accessToken);
+    } catch {
       setHasLoginError(true);
       return;
     }
 
-    // Setea datos de sesión en el contexto Auth
-    // para usarlo en distintas partes de la App
-    const { password, ...rest } = loginData;
-    setUser({
-      ...rest,
-      isLogged: true,
+    const tokenData = jwtDecode(accessToken);
+    Cookies.set(APP.ACCESS_TOKEN_NAME, accessToken, {
+      expires: new Date(tokenData.exp * 1000),
     });
 
-    if (loginData.userType === 'seller') {
-      navigate('/admin');
-    } else {
-      navigate('/');
-    }
+    // Setea datos de sesión en el contexto Auth
+    // para usarlo en distintas partes de la App
+    const userData = {
+      avatarUrl: userInfo.avatar_img,
+      email: userInfo.email,
+      firstName: userInfo.firstname,
+      id: userInfo.id,
+      isLogged: true,
+      lastName: userInfo.lastname,
+      role: userInfo.role.name,
+    };
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser(userData);
+    navigate('/admin');
   };
 
   return (

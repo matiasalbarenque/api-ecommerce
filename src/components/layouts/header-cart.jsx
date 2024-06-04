@@ -10,7 +10,7 @@ const CartItem = (props) => {
       <div className="w-[48px] shrink-0">
         <div className="w-full h-full rounded-full overflow-hidden border border-gray-300">
           <Link to={`/product/${cartItem.id}`}>
-            <img src={cartItem.imageUrl} alt={cartItem.title} />
+            <img src={cartItem.image_url} alt={cartItem.title} />
           </Link>
         </div>
       </div>

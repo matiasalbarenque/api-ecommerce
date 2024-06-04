@@ -3,9 +3,9 @@ import { Card } from '@molecules/card';
 import { priceFormatting, priceWhitDiscount } from '@assets/scripts';
 
 export const ProductCard = (props) => {
-  const { id, imageUrl, title, stock, price, discount } = props;
+  const { id, image_url, title, stock, price, discount } = props;
   return (
-    <Card key={id} btnText="Ver producto" btnUrl={`/product/${id}`} imageUrl={imageUrl} imageAlt={title}>
+    <Card key={id} btnText="Ver producto" btnUrl={`/product/${id}`} imageUrl={image_url} imageAlt={title}>
       <div className="flex flex-col">
         <div className="h-12 overflow-hidden">
           <Link to={`/product/${id}`}>

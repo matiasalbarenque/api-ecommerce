@@ -14,10 +14,13 @@ export function Component() {
   }, []);
 
   const getCategoriesData = async () => {
-    const data = await getCategories();
-    setCategories(data);
+    try {
+      const data = await getCategories();
+      setCategories(data);
+    } catch {
+      // TODO: Tratar el error con una alerta
+    }
   };
-
 
   return (
     <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[1fr,3fr]">
@@ -34,7 +37,7 @@ export function Component() {
               btnText="Ver categoría"
               btnUrl={`/category/${a.id}`}
               imageAlt={a.title}
-              imageUrl={a.imageUrl}
+              imageUrl={a.image_url}
             >
               <Icon icon={a.icon} size={110} className="-top-10 -right-6 absolute text-gray-100" />
               <div className="h-12 overflow-hidden relative">

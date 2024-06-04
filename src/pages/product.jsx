@@ -14,7 +14,7 @@ const ProductDetail = (props) => {
     return (
       <>
         <div className="mb-6 flex justify-center">
-          <img src={product.imageUrl} alt={product.title} className="w-[60%] h-auto" />
+          <img src={product.image_url} alt={product.title} className="w-[60%] h-auto" />
         </div>
         <span className="mb-4 font-medium text-[1.75rem]">Descripción</span>
         <div dangerouslySetInnerHTML={{ __html: product.description }} />
@@ -43,9 +43,7 @@ const ProductPricing = (props) => {
         </div>
         <div>
           {product.discount > 0 && (
-            <h4 className="line-through font-light text-gray-500">
-              ${priceFormatting(product.price)}
-            </h4>
+            <h4 className="line-through font-light text-gray-500">${priceFormatting(product.price)}</h4>
           )}
           <div className="flex items-center gap-2">
             <span className="font-light text-4xl">$ {priceWhitDiscount(product.price, product.discount)}</span>
@@ -111,11 +109,15 @@ export function Component() {
 
   useEffect(() => {
     getProductData();
-  }, []);
+  }, [params.id]);
 
   const getProductData = async () => {
-    const data = await getProduct(params.id);
-    setProduct(data);
+    try {
+      const data = await getProduct(params.id);
+      setProduct(data);
+    } catch {
+      // TODO: tratar el error
+    }
   };
 
   const onSubmit = async ({ quantity }) => {

@@ -4,7 +4,7 @@ import { Button, Modal, Table } from 'antd';
 import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { useAuth } from '@hooks/use-auth';
 import { getCategories } from '@services/categories';
-import { getProducts, deleteProduct } from '@services/products';
+import { deleteProduct } from '@services/products';
 import { priceFormatting } from '@assets/scripts';
 
 export function Component() {
@@ -21,12 +21,17 @@ export function Component() {
   }, []);
 
   const getCategoriesData = async () => {
-    const data = await getCategories();
-    setCategories(data);
+    try {
+      const data = await getCategories();
+      setCategories(data);
+    } catch {
+      // TODO: Tratar el error con una alerta
+    }
   };
 
   const getProductsData = async () => {
-    const data = await getProducts(`?userSellerId=${user.id}`);
+    const data = null;
+    //const data = await getProducts(`?userSellerId=${user.id}`);
     setProducts(data);
   };
 

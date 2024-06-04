@@ -4,7 +4,7 @@ import { Button, Divider, Space, Tooltip } from 'antd';
 import { CloseCircleOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { useCart } from '@hooks/use-cart';
 import { priceFormatting, priceWhitDiscount } from '@assets/scripts';
-import { getProducts, putProduct } from '@services/products';
+import { getCartProducts } from '@services/products';
 
 const CartItemQuantity = (props) => {
   const { children, cartItem, setCartItemQuantity } = props;
@@ -74,7 +74,7 @@ const CartItem = (props) => {
       <div className="w-[64px] h-[64px] shrink-0">
         <div className="w-full h-full rounded-full overflow-hidden border border-gray-300">
           <Link to={`/product/${cartItem.id}`}>
-            <img src={cartItem.imageUrl} alt={cartItem.title} />
+            <img src={cartItem.image_url} alt={cartItem.title} />
           </Link>
         </div>
       </div>
@@ -205,8 +205,8 @@ export function Component() {
   }, [cart]);
 
   const getProductData = async () => {
-    const query = cart.map((a) => `&id=${a.id}`).join('');
-    const products = await getProducts(`?${query.substring(1)}`);
+    const productIds = cart.map((a) => a.id).join(',');
+    const products = await getCartProducts(productIds);
     filterCartProducts(products);
   };
 
@@ -235,18 +235,16 @@ export function Component() {
 
   const handleBuy = async () => {
     try {
-      // Promise.all rompe json-server pero usando un for
-      // se puede ejecutar todas las peticiones PUT
-      // de forma secuencial
-      for (const item of cartProducts) {
-        const { quantityExceedStock, quantity, ...rest } = item;
-        const quantityToBuy = quantityExceedStock ? rest.stock : quantity;
-        const body = {
-          ...rest,
-          stock: rest.stock - quantityToBuy,
-        };
-        await putProduct(rest.id, body);
-      }
+      // TODO: hacer esto en el BE
+      // for (const item of cartProducts) {
+      //   const { quantityExceedStock, quantity, ...rest } = item;
+      //   const quantityToBuy = quantityExceedStock ? rest.stock : quantity;
+      //   const body = {
+      //     ...rest,
+      //     stock: rest.stock - quantityToBuy,
+      //   };
+      //   await putProduct(rest.id, body);
+      // }
       emptyCart();
       navigate('/checkout-success');
     } catch (err) {

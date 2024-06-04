@@ -13,8 +13,12 @@ export default function Sidebar() {
   }, []);
 
   const getCategoriesData = async () => {
-    const data = await getCategories();
-    setCategories(data);
+    try {
+      const data = await getCategories();
+      setCategories(data);
+    } catch {
+      // TODO: Tratar el error con una alerta
+    }
   };
 
   const items = categories.map((a) => ({
