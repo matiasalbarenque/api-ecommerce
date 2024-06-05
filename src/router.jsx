@@ -19,8 +19,8 @@ export const router = createBrowserRouter(
         <Route index lazy={() => import('./pages/admin/dashboard')} />
         <Route path="products/:id" lazy={() => import('./pages/admin/products/edit')} />
         <Route path="products" lazy={() => import('./pages/admin/products/list')} />
-        <Route path="users/:id" lazy={() => import('./pages/admin/users/edit')} />
-        <Route path="users" lazy={() => import('./pages/admin/users/list')} />
+        <Route path="purchases/:id" lazy={() => import('./pages/admin/purchases/view')} />
+        <Route path="purchases" lazy={() => import('./pages/admin/purchases/list')} />
       </Route>
     </Route>,
   ),

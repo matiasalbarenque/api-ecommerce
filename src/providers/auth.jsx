@@ -1,4 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import { APP } from '@constants';
 
 const defaultValues = {
   avatarUrl: null,
@@ -28,6 +30,7 @@ const AuthProvider = (props) => {
   }, []);
 
   const resetUser = () => {
+    Cookies.remove(APP.ACCESS_TOKEN_NAME)
     localStorage.removeItem('user');
     setUser(defaultValues);
   };

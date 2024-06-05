@@ -1,9 +1,12 @@
 import { Menu } from 'antd';
 import { NavLink } from 'react-router-dom';
 
-import { adminScreens } from '@assets/mockup';
+import { ROLES } from '@constants';
+import { useAuth } from '@hooks/use-auth';
 
 export default function Sidebar() {
+  const { user } = useAuth();
+
   const getItem = (label, key, icon, children, type) => {
     return {
       key,
@@ -14,22 +17,31 @@ export default function Sidebar() {
     };
   };
 
-  const items = [
-    getItem(
-      'Secciones',
-      'grp',
-      null,
-      adminScreens.map((a) => getItem(<NavLink to={`/admin/${a.screen}`}>{a.description}</NavLink>, a.id)),
-      'group',
-    ),
-  ];
+  const getItems = () => {
+    const screens = [
+      {
+        screen: 'purchases',
+        description: 'Mis compras',
+      },
+    ];
 
-  return (
-    <Menu
-      style={{ width: '100%', borderInlineEnd: 'none' }}
-      defaultSelectedKeys={['cat1']}
-      mode="inline"
-      items={items}
-    />
-  );
+    if (user.role === ROLES.SELLER) {
+      screens.push({
+        screen: 'products',
+        description: 'Productos',
+      });
+    }
+
+    return [
+      getItem(
+        'Secciones',
+        'grp',
+        null,
+        screens.map((a) => getItem(<NavLink to={`/admin/${a.screen}`}>{a.description}</NavLink>, a.id)),
+        'group',
+      ),
+    ];
+  };
+
+  return <Menu style={{ width: '100%', borderInlineEnd: 'none' }} mode="inline" items={getItems()} />;
 }

@@ -2,8 +2,8 @@ import { ENV } from '@constants';
 
 const entity = 'products';
 
-export const getProductsByCategoryId = async (categoryId) => {
-  const response = await fetch(`${ENV.API_URL}/${entity}/categoryid/${categoryId}`);
+export const getProduct = async (id) => {
+  const response = await fetch(`${ENV.API_URL}/${entity}/${id}`);
   const data = await response.json();
   if (response.ok) {
     return data;
@@ -11,8 +11,8 @@ export const getProductsByCategoryId = async (categoryId) => {
   throw new Error(data);
 };
 
-export const getProduct = async (id) => {
-  const response = await fetch(`${ENV.API_URL}/${entity}/${id}`);
+export const getProductsByCategoryId = async (categoryId) => {
+  const response = await fetch(`${ENV.API_URL}/${entity}/categoryid/${categoryId}`);
   const data = await response.json();
   if (response.ok) {
     return data;
