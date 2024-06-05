@@ -1,25 +1,31 @@
 import { ENV } from '@constants';
 
-export const login = async ({ email, password }) => {
-  try {
-    const response = await fetch(`${ENV.API_URL}/users?email=${email}&password=${password}`);
-    const data = await response.json();
+export const login = async (body) => {
+  const response = await fetch(`${ENV.API_URL}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await response.json();
+  if (response.ok) {
     return data;
-  } catch {
-    return null;
   }
+  throw new Error(data);
 };
 
 export const signup = async (body) => {
-  try {
-    await fetch(`${ENV.API_URL}/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-  } catch {
-    return null;
+  const response = await fetch(`${ENV.API_URL}/auth/signup`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await response.json();
+  if (response.ok) {
+    return data;
   }
+  throw new Error(data);
 };

@@ -6,7 +6,7 @@ import { Icon } from '@atoms/icon';
 import { ProductCard } from '@organisms/product-card';
 
 import AsideContent from '../modules/home/sidebar';
-import { getProducts } from '@services/products';
+import { getProductsByCategoryId } from '@services/products';
 import { getCategories } from '@services/categories';
 
 const BadgeRibbon = (props) => {
@@ -54,9 +54,12 @@ export function Component() {
   };
 
   const getProductsData = async () => {
-    const data = await getProducts(`?categoryId=${params.id}`);
-    //const productListFilteredByStock = data.filter((a) => a.stock > 0); // Ocultar productos sin stock
-    setProducts(data);
+    try {
+      const data = await getProductsByCategoryId(params.id);
+      setProducts(data);
+    } catch {
+      // TODO: tratar el error
+    }
   };
 
   const productCategory = categories.find((a) => a.id.toString() === params.id);

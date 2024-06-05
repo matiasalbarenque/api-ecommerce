@@ -1,65 +1,39 @@
-const ENV = {
-  API_URL: 'http://localhost:3011',
-};
+import { ENV } from '@constants';
+
 const entity = 'products';
 
-export const getProducts = async (q = '') => {
-  try {
-    const response = await fetch(`${ENV.API_URL}/${entity}${q}`);
-    const data = await response.json();
-    return data;
-  } catch {
-    return [];
-  }
-};
-
 export const getProduct = async (id) => {
-  try {
-    const response = await fetch(`${ENV.API_URL}/${entity}/${id}`);
-    const data = await response.json();
+  const response = await fetch(`${ENV.API_URL}/${entity}/${id}`);
+  const data = await response.json();
+  if (response.ok) {
     return data;
-  } catch {
-    return null;
   }
+  throw new Error(data);
 };
 
-export const postProduct = async (body) => {
-  try {
-    await fetch(`${ENV.API_URL}/${entity}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-  } catch {
-    return null;
+export const getProductsByCategoryId = async (categoryId) => {
+  const response = await fetch(`${ENV.API_URL}/${entity}/categoryid/${categoryId}`);
+  const data = await response.json();
+  if (response.ok) {
+    return data;
   }
+  throw new Error(data);
 };
 
-export const putProduct = async (id, body) => {
-  try {
-    await fetch(`${ENV.API_URL}/${entity}/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-  } catch {
-    return null;
+export const getProductBySearch = async (searchText) => {
+  const response = await fetch(`${ENV.API_URL}/${entity}/search?search=${searchText}`);
+  const data = await response.json();
+  if (response.ok) {
+    return data;
   }
+  throw new Error(data);
 };
 
-export const deleteProduct = async (id) => {
-  try {
-    await fetch(`${ENV.API_URL}/${entity}/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  } catch {
-    return null;
+export const getCartProducts = async (productIds) => {
+  const response = await fetch(`${ENV.API_URL}/${entity}/cart-products?productIds=${productIds}`);
+  const data = await response.json();
+  if (response.ok) {
+    return data;
   }
+  throw new Error(data);
 };

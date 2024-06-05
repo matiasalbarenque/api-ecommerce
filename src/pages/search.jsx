@@ -7,7 +7,7 @@ import { Select } from '@atoms/select';
 import { Slider } from '@atoms/slider';
 import { EmptyState } from '@atoms/empty-state';
 import { ProductCard } from '@organisms/product-card';
-import { getProducts } from '@services/products';
+import { getProductBySearch } from '@services/products';
 import { getCategories } from '@services/categories';
 import { priceFormatting } from '@assets/scripts';
 
@@ -31,7 +31,6 @@ export function Component() {
   const priceRangeMaxValue = useRef(100);
   const [categories, setCategories] = useState([]);
   const [categoriesFiltered, setCategoriesFiltered] = useState([]);
-  const [products, setProducts] = useState([]);
   const [productsBySearch, setProductsBySearch] = useState([]);
   const [productsFiltered, setProductsFiltered] = useState([]);
 
@@ -51,16 +50,19 @@ export function Component() {
   }, [searchQuery]);
 
   const getProductsData = async () => {
-    const productsData = await getProducts(`?title_like=${searchQuery}`);
-    // filter: deja unicamente productos con stock
-    // map: deja unicamente los datos que necesitamos para filtrar
-    // sort: ordena por precio de menor a mayor
-    const productListFilteredByStock = productsData
-      .filter((a) => a.stock > 0)
-      .map(({ description, userSellerId, ...rest }) => rest)
-      .sort((b, c) => b.price - c.price);
-    setProducts(productListFilteredByStock);
-    filterProductsBySearch(productListFilteredByStock);
+    try {
+      const productsData = await getProductBySearch(searchQuery);
+      // filter: deja unicamente productos con stock
+      // map: deja unicamente los datos que necesitamos para filtrar
+      // sort: ordena por precio de menor a mayor
+      const productListFilteredByStock = productsData
+        .filter((a) => a.stock > 0)
+        .map(({ description, userSellerId, ...rest }) => rest)
+        .sort((b, c) => b.price - c.price);
+      filterProductsBySearch(productListFilteredByStock);
+    } catch {
+      // TODO: tratar el error
+    }
   };
 
   const filterProductsBySearch = (prod) => {
@@ -78,10 +80,14 @@ export function Component() {
   const getCategoriesData = async (productsFilteredBySearch) => {
     let categoriesData = categories;
     if (categories.length === 0) {
-      categoriesData = await getCategories();
-      setCategories(categoriesData);
+      try {
+        const data = await getCategories();
+        setCategories(data);
+      } catch {
+        // TODO: Tratar el error con una alerta
+      }
     }
-    const categoriesByProductIdsSet = new Set(productsFilteredBySearch.map((a) => a.categoryId)); // Con set se quitan los ids duplicados
+    const categoriesByProductIdsSet = new Set(productsFilteredBySearch.map((a) => a.category_id)); // Con set se quitan los ids duplicados
     const categoriesByProductIds = Array.from(categoriesByProductIdsSet); // Armo el array nuevamente
     const categoriesFiltered = categoriesData.filter((a) => categoriesByProductIds.includes(a.id));
     setCategoriesFiltered(categoriesFiltered);
@@ -92,7 +98,7 @@ export function Component() {
       (a) => a.price >= priceRange[0] && a.price <= priceRange[1],
     );
     if (categoryId) {
-      productsFilteredByPriceRange = productsFilteredByPriceRange.filter((a) => a.categoryId === categoryId);
+      productsFilteredByPriceRange = productsFilteredByPriceRange.filter((a) => a.category_id === categoryId);
     }
     setProductsFiltered(productsFilteredByPriceRange);
   };

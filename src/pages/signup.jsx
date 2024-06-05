@@ -3,15 +3,15 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button } from 'antd';
 import { UserOutlined, MailOutlined, UserAddOutlined } from '@ant-design/icons';
+
 import { Icon } from '@atoms/icon';
 import { Input } from '@atoms/input';
 import { Select } from '@atoms/select';
-import { getUserTypes } from '@services/user-types';
-import { getUsers } from '@services/users';
+import { getRoles } from '@services/roles';
 import { signup } from '@services/auth';
 
 const SignupForm = (props) => {
-  const { control, handleSubmit, isFormValid, onSubmit, userTypes, hasSignupError, watch } = props;
+  const { control, handleSubmit, isFormValid, onSubmit, roles, hasSignupError, watch } = props;
   const navigate = useNavigate();
 
   const loginHandler = () => {
@@ -23,7 +23,7 @@ const SignupForm = (props) => {
       <Input
         control={control}
         id="first-name-id"
-        name="firstName"
+        name="firstname"
         label="Nombre"
         placeholder="Nombre"
         prefix={<UserOutlined />}
@@ -33,7 +33,7 @@ const SignupForm = (props) => {
       <Input
         control={control}
         id="last-name-id"
-        name="lastName"
+        name="lastname"
         label="Apellido"
         placeholder="Apellido"
         prefix={<UserOutlined />}
@@ -78,13 +78,13 @@ const SignupForm = (props) => {
       />
       <Select
         control={control}
-        id="user-type-id"
-        name="userType"
+        id="role-id"
+        name="role_id"
         label="Tipo de usuario"
         size="large"
         placeholder="Tipo de usuario"
         rules={{ required: true }}
-        options={userTypes.map((a) => ({ value: a.userType, label: <span>{a.description}</span> }))}
+        options={roles.map((a) => ({ value: a.id, label: <span>{a.description}</span> }))}
       />
       {hasSignupError && (
         <Alert
@@ -115,19 +115,18 @@ const SignupForm = (props) => {
 
 export function Component() {
   const navigate = useNavigate();
-  const [userTypes, setUserTypes] = useState([]);
+  const [roles, setRoles] = useState([]);
   const [hasSignupError, setHasSignupError] = useState(false);
 
   const { control, formState, handleSubmit, watch } = useForm({
     mode: 'onChange',
     defaultValues: {
       email: '',
-      firstName: '',
-      lastName: '',
+      firstname: '',
+      lastname: '',
       password: '',
       passwordRepeat: '',
-      username: '',
-      userType: null,
+      role_id: null,
     },
     shouldUnregister: true,
   });
@@ -135,23 +134,26 @@ export function Component() {
   const isFormValid = Object.keys(formState.errors).length === 0;
 
   useEffect(() => {
-    getUserTypesData();
+    getRolesData();
   }, []);
 
-  const getUserTypesData = async () => {
-    const data = await getUserTypes();
-    setUserTypes(data);
+  const getRolesData = async () => {
+    try {
+      const data = await getRoles();
+      setRoles(data);
+    } catch {
+      // TODO: mostrar error de falla al cargar los roles
+    }
   };
 
   const onSubmit = async ({ passwordRepeat, ...rest }) => {
-    const userList = await getUsers();
-    const userWithSameEmail = userList.find((a) => a.email === rest.email);
-    if (userWithSameEmail) {
+    try {
+      await signup(rest);
+      navigate('/login');
+    } catch {
       setHasSignupError(true);
       return;
     }
-    signup(rest);
-    navigate('/login');
   };
 
   return (
@@ -171,7 +173,7 @@ export function Component() {
             handleSubmit={handleSubmit}
             isFormValid={isFormValid}
             onSubmit={onSubmit}
-            userTypes={userTypes}
+            roles={roles}
             hasSignupError={hasSignupError}
             watch={watch}
           />

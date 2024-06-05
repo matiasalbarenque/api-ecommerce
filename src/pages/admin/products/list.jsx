@@ -4,8 +4,9 @@ import { Button, Modal, Table } from 'antd';
 import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { useAuth } from '@hooks/use-auth';
 import { getCategories } from '@services/categories';
-import { getProducts, deleteProduct } from '@services/products';
+import { getProducts, deleteProduct } from '@services/admin/products';
 import { priceFormatting } from '@assets/scripts';
+import { ROLES } from '@constants';
 
 export function Component() {
   const navigate = useNavigate();
@@ -16,18 +17,30 @@ export function Component() {
   const idSelected = useRef('');
 
   useEffect(() => {
+    if (user.role !== ROLES.SELLER) {
+      navigate('/admin');
+      return;
+    }
     getCategoriesData();
     getProductsData();
   }, []);
 
   const getCategoriesData = async () => {
-    const data = await getCategories();
-    setCategories(data);
+    try {
+      const data = await getCategories();
+      setCategories(data);
+    } catch {
+      // TODO: Tratar el error con una alerta
+    }
   };
 
   const getProductsData = async () => {
-    const data = await getProducts(`?userSellerId=${user.id}`);
-    setProducts(data);
+    try {
+      const data = await getProducts();
+      setProducts(data);
+    } catch {
+      // TODO: Tratar el error con una alerta
+    }
   };
 
   const newHandler = () => {
@@ -90,20 +103,19 @@ export function Component() {
     },
   ];
 
-  const productList = [];
-  const productsListTemp = products.map(({ imageUrl, categoryId, id, price, ...rest }) => ({
-    key: id,
-    price: `$${priceFormatting(price)}`,
-    category: categories.find((a) => a.id === categoryId).title,
-    ...rest,
+  const tableItems = products.map((a) => ({
+    key: a.id,
+    price: `$${priceFormatting(a.price)}`,
+    category: categories.find((b) => b.id === a.category_id).title,
+    stock: a.stock,
+    title: a.title,
     actions: (
       <div className="flex justify-center gap-2">
-        <Button type="primary" size="middle" icon={<EditFilled />} onClick={() => handleEdit(id)} />
-        <Button type="primary" size="middle" icon={<DeleteFilled />} danger onClick={() => handleDelete(id)} />
+        <Button type="primary" size="middle" icon={<EditFilled />} onClick={() => handleEdit(a.id)} />
+        <Button type="primary" size="middle" icon={<DeleteFilled />} danger onClick={() => handleDelete(a.id)} />
       </div>
     ),
   }));
-  productList.push(...productsListTemp);
 
   return (
     <div>
@@ -111,7 +123,7 @@ export function Component() {
       <Button type="primary" icon={<PlusOutlined />} size="large" className="mt-4" onClick={newHandler}>
         Nuevo
       </Button>
-      <Table columns={columns} dataSource={productList} className="mt-6 border border-[#ddd] rounded-md bg-white" />
+      <Table columns={columns} dataSource={tableItems} className="mt-6 border border-[#ddd] rounded-md bg-white" />
       <Modal
         title="Confirmar eliminación"
         open={isModalOpen}

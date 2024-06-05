@@ -3,21 +3,6 @@ import { Button, Divider, Dropdown } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useAuth } from '@hooks/use-auth';
 
-const MenuOption = (props) => {
-  const { userType } = props;
-
-  if (userType === 'seller') {
-    return (
-      <div className="flex flex-col gap-2">
-        <Link to="/admin" className="px-3 py-1 text-center !text-gray-600 hover:bg-gray-100 rounded-sm">
-          Administrar
-        </Link>
-        <Divider className="!m-0" />
-      </div>
-    );
-  }
-};
-
 export const UserAvatar = () => {
   const navigate = useNavigate();
   const { user, resetUser } = useAuth();
@@ -44,7 +29,12 @@ export const UserAvatar = () => {
                 <span className="font-medium">{`${user.firstName} ${user.lastName}`}</span>
                 <span className="text-gray-400">{`${user.email}`}</span>
               </div>
-              <MenuOption userType={user.userType} />
+              <div className="flex flex-col gap-2">
+                <Link to="/admin" className="px-3 py-1 text-center !text-gray-600 hover:bg-gray-100 rounded-sm">
+                  Administrar
+                </Link>
+                <Divider className="!m-0" />
+              </div>
               <Button type="text" onClick={logout}>
                 Cerrar sesión
               </Button>
@@ -52,7 +42,7 @@ export const UserAvatar = () => {
           )}
         >
           <div className="w-[40px] border border-gray-300 rounded-full overflow-hidden cursor-pointer hover:border-amber-400 transition-colors duration-300">
-            <img src={user?.avatarImg || '/avatars/no-avatar.jpg'} alt={user.firstName} width="40" height="40" className="w-full h-full object-cover" />
+            <img src={user?.avatarUrl || '/avatars/no-avatar.jpg'} alt={user.firstName} width="40" height="40" className="w-full h-full object-cover" />
           </div>
         </Dropdown>
       </div>
