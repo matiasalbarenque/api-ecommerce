@@ -1,3 +1,3 @@
-export function Component() {
+export const AdminDashboardPage = () => {
   return <b>Admin Dashboard</b>;
 }

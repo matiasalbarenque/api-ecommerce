@@ -3,10 +3,10 @@ import { useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { Select } from '@atoms/select';
-import { Slider } from '@atoms/slider';
-import { EmptyState } from '@atoms/empty-state';
-import { ProductCard } from '@organisms/product-card';
+import { Select } from '@atoms/Select';
+import { Slider } from '@atoms/Slider';
+import { EmptyState } from '@atoms/EmptyState';
+import { ProductCard } from '@organisms/ProductCard';
 import { getProductBySearch } from '@services/products';
 import { getCategories } from '@services/categories';
 import { priceFormatting } from '@assets/scripts';
@@ -24,7 +24,7 @@ const productCardList = (products) => {
   return <EmptyState text="No existen productos disponibles para mostrar" />;
 };
 
-export function Component() {
+export const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('q').toLowerCase();
   const priceRangeMinValue = useRef(0);

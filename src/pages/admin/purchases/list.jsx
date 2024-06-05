@@ -6,7 +6,7 @@ import { EyeOutlined } from '@ant-design/icons';
 import { useAuth } from '@hooks/use-auth';
 import { priceFormatting } from '@assets/scripts';
 
-export function Component() {
+export const AdminPurchasesListPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [products, setProducts] = useState([]);

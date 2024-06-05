@@ -16,13 +16,3 @@ export const getUserInfo = async (accessToken) => {
   }
   throw new Error(data);
 };
-
-export const getUsers = async () => {
-  try {
-    const response = await fetch(`${ENV.API_URL}/${entity}`);
-    const data = await response.json();
-    return data;
-  } catch {
-    return [];
-  }
-};

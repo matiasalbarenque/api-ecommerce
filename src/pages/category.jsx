@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Badge } from 'antd';
-import { EmptyState } from '@atoms/empty-state';
-import { Icon } from '@atoms/icon';
-import { ProductCard } from '@organisms/product-card';
+import { EmptyState } from '@atoms/EmptyState';
+import { Icon } from '@atoms/Icon';
+import { ProductCard } from '@organisms/ProductCard';
 
-import AsideContent from '../modules/home/sidebar';
+import { Sidebar } from '../modules/home/Sidebar';
 import { getProductsByCategoryId } from '@services/products';
 import { getCategories } from '@services/categories';
 
@@ -35,7 +35,7 @@ const productCardList = (products) => {
   return <EmptyState text="No existen productos disponibles para mostrar" />;
 };
 
-export function Component() {
+export const CategoryPage = () => {
   const params = useParams();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -67,7 +67,7 @@ export function Component() {
   return (
     <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[1fr,3fr]">
       <div className="w-full min-w-[320px] h-min p-4 flex flex-col bg-white border rounded-md">
-        <AsideContent />
+        <Sidebar />
       </div>
 
       <div className="w-full flex flex-col">

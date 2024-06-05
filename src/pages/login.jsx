@@ -7,8 +7,8 @@ import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 
 import { APP } from '@constants';
-import { Icon } from '@atoms/icon';
-import { Input } from '@atoms/input';
+import { Icon } from '@atoms/Icon';
+import { Input } from '@atoms/Input';
 import { useAuth } from '@hooks/use-auth';
 import { login } from '@services/auth';
 import { getUserInfo } from '@services/admin/users';
@@ -72,7 +72,7 @@ const LoginForm = (props) => {
   );
 };
 
-export function Component() {
+export const LoginPage = () => {
   const navigate = useNavigate();
   const { setUser } = useAuth();
   const [hasLoginError, setHasLoginError] = useState(false);

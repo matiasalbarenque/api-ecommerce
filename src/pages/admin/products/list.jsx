@@ -8,7 +8,7 @@ import { getProducts, deleteProduct } from '@services/admin/products';
 import { priceFormatting } from '@assets/scripts';
 import { ROLES } from '@constants';
 
-export function Component() {
+export const AdminProductsListPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);

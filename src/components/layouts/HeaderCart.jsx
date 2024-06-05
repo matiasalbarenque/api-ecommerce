@@ -77,7 +77,7 @@ const CartList = () => {
   );
 };
 
-export const CartButton = () => {
+export const HeaderCart = () => {
   const { cart } = useCart();
   return (
     <div>

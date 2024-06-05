@@ -191,7 +191,7 @@ const SidebarContent = (props) => {
   );
 };
 
-export function Component() {
+export const CheckoutPage = () => {
   const navigate = useNavigate();
   const { cart, removeItemFromCart, emptyCart, setCartItemQuantity } = useCart();
   const [cartProducts, setCartProducts] = useState([]);
