@@ -4,9 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button } from 'antd';
 import { UserOutlined, MailOutlined, UserAddOutlined } from '@ant-design/icons';
 
-import { Icon } from '@atoms/icon';
-import { Input } from '@atoms/input';
-import { Select } from '@atoms/select';
+import { Icon } from '@atoms/Icon';
+import { Input } from '@atoms/Input';
+import { Select } from '@atoms/Select';
 import { getRoles } from '@services/roles';
 import { signup } from '@services/auth';
 
@@ -113,7 +113,7 @@ const SignupForm = (props) => {
   );
 };
 
-export function Component() {
+export const SignupPage = () => {
   const navigate = useNavigate();
   const [roles, setRoles] = useState([]);
   const [hasSignupError, setHasSignupError] = useState(false);

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { ROLES } from '@constants';
 import { useAuth } from '@hooks/use-auth';
 
-export default function Sidebar() {
+export const Sidebar = () => {
   const { user } = useAuth();
 
   const getItem = (label, key, icon, children, type) => {

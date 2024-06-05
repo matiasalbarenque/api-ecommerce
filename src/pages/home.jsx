@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Icon } from '@atoms/icon';
-import { Card } from '@molecules/card';
-import AsideContent from '../modules/home/sidebar';
+import { Icon } from '@atoms/Icon';
+import { Card } from '@molecules/Card';
+import { Sidebar } from '../modules/home/Sidebar';
 import { getCategories } from '@services/categories';
 
-export function Component() {
+export const HomePage = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export function Component() {
   return (
     <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[1fr,3fr]">
       <div className="w-full min-w-[320px] h-min p-4 flex flex-col bg-white border rounded-md">
-        <AsideContent />
+        <Sidebar />
       </div>
 
       <div className="w-full flex flex-col">
@@ -51,6 +51,4 @@ export function Component() {
       </div>
     </div>
   );
-
-  
-}
+};

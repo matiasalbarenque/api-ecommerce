@@ -10,15 +10,15 @@ import {
   PictureOutlined,
   SaveOutlined,
 } from '@ant-design/icons';
-import { Input } from '@atoms/input';
-import { TextArea } from '@atoms/textarea';
-import { Select } from '@atoms/select';
+import { Input } from '@atoms/Input';
+import { TextArea } from '@atoms/Textarea';
+import { Select } from '@atoms/Select';
 import { useAuth } from '@hooks/use-auth';
 import { getCategories } from '@services/categories';
 import { getProduct } from '@services/products';
 import { postProduct, putProduct } from '@services/admin/products';
 
-export function Component() {
+export const AdminPurchasesViewPage = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { user } = useAuth();

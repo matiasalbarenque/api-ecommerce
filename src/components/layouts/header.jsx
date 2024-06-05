@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { CartButton } from './header-cart';
-import { UserAvatar } from './header-avatar';
+import { HeaderCart } from './HeaderCart';
+import { UserAvatar } from './HeaderAvatar';
 
 export default function Header(props) {
   const { children } = props;
@@ -15,7 +15,7 @@ export default function Header(props) {
       {children}
 
       <div className="flex gap-4">
-        <CartButton />
+        <HeaderCart />
         <UserAvatar />
       </div>
     </header>

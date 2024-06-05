@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import { NavLink } from 'react-router-dom';
-import { Icon } from '@atoms/icon';
+import { Icon } from '@atoms/Icon';
 
 import { getCategories } from '@services/categories';
 
-export default function Sidebar() {
+export const Sidebar = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {

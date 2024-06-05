@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '@hooks/use-auth';
-import Header from '../header';
-import Main from './main';
+import Header from '../Header';
+import Main from './Main';
 
 export default function AdminLayout() {
   const navigate = useNavigate();

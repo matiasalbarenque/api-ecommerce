@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
 import { ShoppingCartOutlined, ShoppingOutlined } from '@ant-design/icons';
 import { useCart } from '@hooks/use-cart'; // Custom hook
-import { InputNumber } from '@atoms/input-number';
+import { InputNumber } from '@atoms/InputNumber';
 import { getProduct } from '@services/products';
 import { priceFormatting, priceWhitDiscount } from '@assets/scripts';
 
@@ -94,7 +94,7 @@ const ProductPricing = (props) => {
   return <b>Cargando...</b>;
 };
 
-export function Component() {
+export const ProductPage = () => {
   const params = useParams();
   const { addToCart } = useCart();
   const [product, setProduct] = useState();
