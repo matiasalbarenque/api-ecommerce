@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form';
 import { Select as SelectAnt } from 'antd';
-import { Label } from './Label';
+import { Label } from './LabelComp';
 
 export const Select = (props) => {
   const { control, name, label, id, rules, ...rest } = props;

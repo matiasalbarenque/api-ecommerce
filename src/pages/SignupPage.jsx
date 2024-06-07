@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button } from 'antd';
 import { UserOutlined, MailOutlined, UserAddOutlined } from '@ant-design/icons';
 
-import { Icon } from '@atoms/Icon';
+import { Icon } from '@atoms/IconComp';
 import { Input } from '@atoms/Input';
 import { Select } from '@atoms/Select';
 import { getRoles } from '@services/roles';

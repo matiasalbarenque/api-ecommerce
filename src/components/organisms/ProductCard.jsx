@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Card } from '@molecules/Card';
+import { Card } from '@molecules/CardComp';
 import { priceFormatting, priceWhitDiscount } from '@assets/scripts';
 
 export const ProductCard = (props) => {
