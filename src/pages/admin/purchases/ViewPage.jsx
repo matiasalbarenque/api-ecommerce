@@ -10,9 +10,9 @@ import {
   PictureOutlined,
   SaveOutlined,
 } from '@ant-design/icons';
-import { Input } from '@atoms/InputComp';
-import { TextArea } from '@atoms/TextareaComp';
-import { Select } from '@atoms/SelectComp';
+import { Input } from '@atoms/Input';
+import { TextArea } from '@atoms/Textarea';
+import { Select } from '@atoms/Select';
 import { useAuth } from '@hooks/use-auth';
 import { getCategories } from '@services/categories';
 import { getProduct } from '@services/products';

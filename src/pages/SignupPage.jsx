@@ -5,8 +5,8 @@ import { Alert, Button } from 'antd';
 import { UserOutlined, MailOutlined, UserAddOutlined } from '@ant-design/icons';
 
 import { Icon } from '@atoms/Icon';
-import { Input } from '@atoms/InputComp';
-import { Select } from '@atoms/SelectComp';
+import { Input } from '@atoms/Input';
+import { Select } from '@atoms/Select';
 import { getRoles } from '@services/roles';
 import { signup } from '@services/auth';
 
