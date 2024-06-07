@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Icon } from '@atoms/Icon';
-import { Card } from '@molecules/Card';
-import { Sidebar } from '../modules/home/Sidebar';
+import { Icon } from '@atoms/IconComp';
+import { Card } from '@molecules/CardComp';
+import { Sidebar } from '../modules/home/SidebarComp';
 import { getCategories } from '@services/categories';
 
 export const HomePage = () => {

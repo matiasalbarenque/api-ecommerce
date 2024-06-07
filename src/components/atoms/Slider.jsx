@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form';
 import { Slider as SliderAnt } from 'antd';
-import { Label } from './Label';
+import { Label } from './LabelComp';
 
 export const Slider = (props) => {
   const { control, name, id, rules, label, ...rest } = props;

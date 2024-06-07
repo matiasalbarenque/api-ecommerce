@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form';
 import { Input as InputAnt } from 'antd';
-import { Label } from './Label';
+import { Label } from './LabelComp';
 
 export const Input = (props) => {
   const { control, name, label, id, rules, ...rest } = props;

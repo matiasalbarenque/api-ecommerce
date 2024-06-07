@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Header from '../Header';
-import Main from './Main';
+import Main from './MainComp';
 import { Input } from '@atoms/Input';
 
 const SearchNavbar = () => {
