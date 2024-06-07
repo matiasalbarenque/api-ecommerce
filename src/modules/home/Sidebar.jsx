@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import { NavLink } from 'react-router-dom';
-import { Icon } from '@atoms/IconComp';
+import { Icon } from '@atoms/Icon';
 
 import { getCategories } from '@services/categories';
 

@@ -7,7 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 
 import { APP } from '@constants';
-import { Icon } from '@atoms/IconComp';
+import { Icon } from '@atoms/Icon';
 import { Input } from '@atoms/Input';
 import { useAuth } from '@hooks/use-auth';
 import { login } from '@services/auth';
