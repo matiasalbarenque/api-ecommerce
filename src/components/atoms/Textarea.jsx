@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form';
 import { Input as InputAnt } from 'antd';
-import { Label } from './LabelComp';
+import { Label } from './Label';
 
 export const TextArea = (props) => {
   const { control, name, label, id, rules, rows = 5, ...rest } = props;

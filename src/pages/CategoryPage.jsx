@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Badge } from 'antd';
 import { EmptyState } from '@atoms/EmptyState';
-import { Icon } from '@atoms/IconComp';
+import { Icon } from '@atoms/Icon';
 import { ProductCard } from '@organisms/ProductCard';
 
-import { Sidebar } from '../modules/home/SidebarComp';
+import { Sidebar } from '../modules/home/Sidebar';
 import { getProductsByCategoryId } from '@services/products';
 import { getCategories } from '@services/categories';
 
