@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
-import AdminLayout from './components/layouts/admin/LayoutComp';
-import MainLayout from './components/layouts/main/LayoutComp';
+import AdminLayout from './components/layouts/admin/Layout';
+import MainLayout from './components/layouts/main/Layout';
 import { AdminDashboardPage } from './pages/admin/DashboardPage';
 import { AdminProductsEditPage } from './pages/admin/products/EditPage';
 import { AdminProductsListPage } from './pages/admin/products/ListPage';

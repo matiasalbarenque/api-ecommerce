@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 
 import { APP } from '@constants';
 import { Icon } from '@atoms/Icon';
-import { Input } from '@atoms/InputComp';
+import { Input } from '@atoms/Input';
 import { useAuth } from '@hooks/use-auth';
 import { login } from '@services/auth';
 import { getUserInfo } from '@services/admin/users';

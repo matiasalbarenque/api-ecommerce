@@ -1,4 +1,4 @@
-import { Sidebar } from './SidebarComp';
+import { Sidebar } from './Sidebar';
 
 export default function Main(props) {
   const { children } = props;
