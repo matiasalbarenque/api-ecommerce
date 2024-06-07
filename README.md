@@ -11,6 +11,12 @@ npm install
 
 ```
 
+## Crear en la carpeta raiz el archivo *.env* con la uri del BE, ej:
+
+```bash
+VITE_API_URL="http://localhost:4002"
+```
+
 ## Iniciar server de desarrollo
 
 ```bash
