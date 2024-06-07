@@ -1,19 +1,19 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
-import AdminLayout from './components/layouts/admin/Layout';
-import MainLayout from './components/layouts/main/Layout';
-import { AdminDashboardPage } from './pages/admin/Dashboard';
-import { AdminProductsEditPage } from './pages/admin/products/Edit';
-import { AdminProductsListPage } from './pages/admin/products/List';
-import { AdminPurchasesListPage } from './pages/admin/purchases/List';
-import { AdminPurchasesViewPage } from './pages/admin/purchases/View';
-import { CategoryPage } from './pages/Category';
-import { CheckoutPage } from './pages/Checkout';
+import AdminLayout from './components/layouts/admin/LayoutComp';
+import MainLayout from './components/layouts/main/LayoutComp';
+import { AdminDashboardPage } from './pages/admin/DashboardPage';
+import { AdminProductsEditPage } from './pages/admin/products/EditPage';
+import { AdminProductsListPage } from './pages/admin/products/ListPage';
+import { AdminPurchasesListPage } from './pages/admin/purchases/ListPage';
+import { AdminPurchasesViewPage } from './pages/admin/purchases/ViewPage';
+import { CategoryPage } from './pages/CategoryPage';
+import { CheckoutPage } from './pages/CheckoutPage';
 import { CheckoutSuccessPage } from './pages/CheckoutSuccess';
-import { HomePage } from './pages/Home';
-import { LoginPage } from './pages/Login';
-import { ProductPage } from './pages/Product';
-import { SearchPage } from './pages/Search';
-import { SignupPage } from './pages/Signup';
+import { HomePage } from './pages/HomePage';
+import { LoginPage } from './pages/LoginPage';
+import { ProductPage } from './pages/ProductPage';
+import { SearchPage } from './pages/SearchPage';
+import { SignupPage } from './pages/SignupPage';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
