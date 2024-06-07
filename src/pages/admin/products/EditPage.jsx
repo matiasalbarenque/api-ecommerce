@@ -10,15 +10,16 @@ import {
   PictureOutlined,
   SaveOutlined,
 } from '@ant-design/icons';
-import { Input } from '@atoms/Input';
-import { TextArea } from '@atoms/Textarea';
-import { Select } from '@atoms/Select';
+import { Input } from '@atoms/InputComp';
+import { TextArea } from '@atoms/TextareaComp';
+import { Select } from '@atoms/SelectComp';
 import { useAuth } from '@hooks/use-auth';
 import { getCategories } from '@services/categories';
 import { getProduct } from '@services/products';
 import { postProduct, putProduct } from '@services/admin/products';
+import { ROLES } from '@constants';
 
-export const AdminPurchasesViewPage = () => {
+export const AdminProductsEditPage = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { user } = useAuth();
@@ -27,13 +28,14 @@ export const AdminPurchasesViewPage = () => {
   const { control, formState, handleSubmit, reset } = useForm({
     mode: 'onChange',
     defaultValues: {
+      id: null,
       title: '',
       price: 0,
-      imageUrl: '',
+      image_url: '',
       stock: 0,
       description: '',
       discount: 0,
-      categoryId: null,
+      category_id: null,
     },
     shouldUnregister: true,
   });
@@ -41,6 +43,10 @@ export const AdminPurchasesViewPage = () => {
   const isFormValid = Object.keys(formState.errors).length === 0;
 
   useEffect(() => {
+    if (user.role !== ROLES.SELLER) {
+      navigate('/admin');
+      return;
+    }
     getCategoriesData();
     if (params.id !== 'new') {
       getProductData();
@@ -57,31 +63,36 @@ export const AdminPurchasesViewPage = () => {
   };
 
   const getProductData = async () => {
-    const data = await getProduct(params.id);
-    if (data) {
-      reset({
-        price: data.price,
-        stock: data.stock,
-        imageUrl: data.imageUrl,
-        title: data.title,
-        discount: data.discount || 0,
-        description: data.description,
-        categoryId: data.categoryId,
-      });
+    try {
+      const data = await getProduct(params.id);
+      if (data) {
+        reset({
+          id: data.id,
+          price: data.price,
+          stock: data.stock,
+          image_url: data.image_url,
+          title: data.title,
+          discount: data.discount || 0,
+          description: data.description,
+          category_id: data.category_id,
+        });
+      }
+    } catch {
+      // TODO: Tratar el error con una alerta
     }
   };
 
-  const onSubmit = async (formDataRaw) => {
-    const formData = {
-      ...formDataRaw,
-      userSellerId: user.id,
-    };
-    if (params.id === 'new') {
-      postProduct(formData);
-    } else {
-      putProduct(params.id, formData);
+  const onSubmit = async ({ id, ...formData }) => {
+    try {
+      if (params.id === 'new') {
+        postProduct(formData);
+      } else {
+        putProduct({ id, ...formData });
+      }
+      navigate('/admin/products');
+    } catch {
+      // TODO: tratar el error de guardado
     }
-    navigate('/admin/products');
   };
 
   return (
@@ -91,6 +102,7 @@ export const AdminPurchasesViewPage = () => {
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
         <div>
+          <Input control={control} id="id" name="id" type="hidden" />
           <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5 mt-4">
             <div>
               <Input
@@ -134,7 +146,7 @@ export const AdminPurchasesViewPage = () => {
               <Select
                 control={control}
                 id="category-id"
-                name="categoryId"
+                name="category_id"
                 label="Categoría"
                 size="large"
                 placeholder="Categoría"
@@ -147,7 +159,7 @@ export const AdminPurchasesViewPage = () => {
               <Input
                 control={control}
                 id="image-id"
-                name="imageUrl"
+                name="image_url"
                 label="Imagen"
                 placeholder="Imagen"
                 prefix={<PictureOutlined />}

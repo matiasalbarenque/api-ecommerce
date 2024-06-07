@@ -2,9 +2,9 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import Header from '../Header';
+import Header from '../HeaderComp';
 import Main from './Main';
-import { Input } from '@atoms/Input';
+import { Input } from '@atoms/InputComp';
 
 const SearchNavbar = () => {
   const navigate = useNavigate();
