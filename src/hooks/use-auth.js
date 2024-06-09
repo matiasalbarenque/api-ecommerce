@@ -1,7 +1,21 @@
-import { useContext } from 'react';
-import { AuthContext } from '@providers/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetUserData, setUserData } from '@redux/slices/AuthSlice';
 
 export const useAuth = () => {
-  const authContext = useContext(AuthContext);
-  return authContext;
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.data);
+
+  const resetUser = () => {
+    dispatch(resetUserData());
+  };
+
+  const setUser = (userData) => {
+    dispatch(setUserData(userData));
+  };
+
+  return {
+    resetUser,
+    setUser,
+    user,
+  };
 };

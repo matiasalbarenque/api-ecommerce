@@ -23,7 +23,6 @@ export default defineConfig({
       '@organisms': dir('./src/components/organisms'),
       '@redux': dir('./src/redux'),
       '@services': dir('./src/services'),
-      '@providers': dir('./src/providers'),
     },
   },
 });

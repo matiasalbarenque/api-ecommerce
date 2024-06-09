@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
@@ -14,7 +14,7 @@ import { Input } from '@atoms/Input';
 import { TextArea } from '@atoms/Textarea';
 import { Select } from '@atoms/Select';
 import { useAuth } from '@hooks/use-auth';
-import { getCategories } from '@services/categories';
+import { useCategories } from '@hooks/use-categories';
 import { getProduct } from '@services/products';
 import { postProduct, putProduct } from '@services/admin/products';
 
@@ -22,7 +22,7 @@ export const AdminPurchasesViewPage = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { user } = useAuth();
-  const [categories, setCategories] = useState([]);
+  const { data: categories } = useCategories();
 
   const { control, formState, handleSubmit, reset } = useForm({
     mode: 'onChange',
@@ -41,20 +41,10 @@ export const AdminPurchasesViewPage = () => {
   const isFormValid = Object.keys(formState.errors).length === 0;
 
   useEffect(() => {
-    getCategoriesData();
     if (params.id !== 'new') {
       getProductData();
     }
   }, []);
-
-  const getCategoriesData = async () => {
-    try {
-      const data = await getCategories();
-      setCategories(data);
-    } catch {
-      // TODO: Tratar el error con una alerta
-    }
-  };
 
   const getProductData = async () => {
     const data = await getProduct(params.id);
@@ -191,4 +181,4 @@ export const AdminPurchasesViewPage = () => {
       </form>
     </div>
   );
-}
+};

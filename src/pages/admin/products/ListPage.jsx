@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Modal, Table } from 'antd';
 import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { useAuth } from '@hooks/use-auth';
-import { getCategories } from '@services/categories';
+import { useCategories } from '@hooks/use-categories';
 import { getProducts, deleteProduct } from '@services/admin/products';
 import { priceFormatting } from '@assets/scripts';
 import { ROLES } from '@constants';
@@ -11,9 +11,10 @@ import { ROLES } from '@constants';
 export const AdminProductsListPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { data: categories } = useCategories();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
   const idSelected = useRef('');
 
   useEffect(() => {
@@ -21,25 +22,18 @@ export const AdminProductsListPage = () => {
       navigate('/admin');
       return;
     }
-    getCategoriesData();
     getProductsData();
   }, []);
 
-  const getCategoriesData = async () => {
-    try {
-      const data = await getCategories();
-      setCategories(data);
-    } catch {
-      // TODO: Tratar el error con una alerta
-    }
-  };
-
   const getProductsData = async () => {
+    setIsLoadingProducts(true);
     try {
       const data = await getProducts();
       setProducts(data);
     } catch {
       // TODO: Tratar el error con una alerta
+    } finally {
+      setIsLoadingProducts(false);
     }
   };
 
@@ -123,7 +117,12 @@ export const AdminProductsListPage = () => {
       <Button type="primary" icon={<PlusOutlined />} size="large" className="mt-4" onClick={newHandler}>
         Nuevo
       </Button>
-      <Table columns={columns} dataSource={tableItems} className="mt-6 border border-[#ddd] rounded-md bg-white" />
+      <Table
+        columns={columns}
+        dataSource={tableItems}
+        className="mt-6 border border-[#ddd] rounded-md bg-white"
+        loading={isLoadingProducts}
+      />
       <Modal
         title="Confirmar eliminación"
         open={isModalOpen}
@@ -136,4 +135,4 @@ export const AdminProductsListPage = () => {
       </Modal>
     </div>
   );
-}
+};

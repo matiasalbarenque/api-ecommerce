@@ -1,11 +1,12 @@
-import { useContext } from 'react';
-import { CartContext } from '@providers/cart';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCart } from '@redux/slices/CartSlice';
 
 export const useCart = () => {
-  const { cart, setCart } = useContext(CartContext);
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.data);
 
   const setCartData = (cartData) => {
-    setCart(cartData);
+    dispatch(setCart(cartData));
     localStorage.setItem('cart', JSON.stringify(cartData));
   };
 
@@ -43,14 +44,14 @@ export const useCart = () => {
   };
 
   const setCartItemQuantity = (id, quantity) => {
-    const cardData = cart.map((a) => a); // Crea una copia de cart. Si no uso map crea una referencia y no funciona
+    const cartData = cart.map((a) => ({ ...a })); // Crea una copia de cart. Si no uso map crea una referencia y no funciona
     const itemIndexInCart = cart.findIndex((a) => a.id === id);
-    cardData[itemIndexInCart].quantity = quantity;
-    setCartData(cardData);
+    cartData[itemIndexInCart].quantity = quantity;
+    setCartData(cartData);
   };
 
   const emptyCart = () => {
-    setCart([]);
+    dispatch(setCart([]));
     localStorage.removeItem('cart');
   };
 
