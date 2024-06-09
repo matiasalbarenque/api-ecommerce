@@ -9,7 +9,7 @@ export const ProductCard = (props) => {
       <div className="flex flex-col">
         <div className="h-12 overflow-hidden">
           <Link to={`/product/${id}`}>
-            <h2 className="text-black hover:text-amber-500 leading-[1.4]">{title}</h2>
+            <h2 className="text-black hover:text-amber-500 leading-[1.4]" title={title}>{title}</h2>
           </Link>
         </div>
         {discount > 0 ? (

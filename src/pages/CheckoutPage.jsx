@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Divider, Space, Tooltip } from 'antd';
+import { Button, Divider, Space, Spin, Tooltip } from 'antd';
 import { CloseCircleOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { useCart } from '@hooks/use-cart';
 import { priceFormatting, priceWhitDiscount } from '@assets/scripts';
@@ -10,7 +10,7 @@ const CartItemQuantity = (props) => {
   const { children, cartItem, setCartItemQuantity } = props;
 
   const isMinQuantity = cartItem.quantity === 1;
-  const isMaxQuantity = cartItem.quantity === cartItem.stock;
+  const isMaxQuantity = cartItem.quantity === Number(cartItem.stock);
 
   const handleDecreaseQuantity = () => {
     if (!isMinQuantity) {
@@ -119,6 +119,7 @@ const CartItem = (props) => {
 
 const CartList = (props) => {
   const { cartProducts, removeItemFromCart, setCartItemQuantity } = props;
+
   return (
     <div className="flex flex-col gap-3">
       {cartProducts.map((item, index) => (
@@ -132,7 +133,7 @@ const CartList = (props) => {
 };
 
 const SidebarContent = (props) => {
-  const { extendedWarranty, subtotal, shipping, tax, handleBuy } = props;
+  const { extendedWarranty, subtotal, shipping, tax, handleBuy, isLoading } = props;
   const total = extendedWarranty + subtotal + shipping + tax;
   return (
     <>
@@ -184,7 +185,14 @@ const SidebarContent = (props) => {
           </div>
         </div>
       </div>
-      <Button type="primary" shape="default" size="large" className="w-full !h-[54px]" onClick={handleBuy}>
+      <Button
+        type="primary"
+        shape="default"
+        size="large"
+        className="w-full !h-[54px]"
+        onClick={handleBuy}
+        disabled={isLoading}
+      >
         <span className="font-medium tracking-wide text-center uppercase">Completar compra</span>
       </Button>
     </>
@@ -194,35 +202,49 @@ const SidebarContent = (props) => {
 export const CheckoutPage = () => {
   const navigate = useNavigate();
   const { cart, removeItemFromCart, emptyCart, setCartItemQuantity } = useCart();
-  const [cartProducts, setCartProducts] = useState([]);
+  const [productsInCart, setProductsInCart] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (cart.length > 0) {
       getProductData();
-    } else {
+    }
+  }, []);
+
+  useEffect(() => {
+    // Si se vacía el carrito se redirige a la home
+    if (cart.length === 0) {
       navigate('/');
     }
-  }, [cart]);
+  }, [cart.length]);
 
   const getProductData = async () => {
-    const productIds = cart.map((a) => a.id).join(',');
-    const products = await getCartProducts(productIds);
-    filterCartProducts(products);
+    setIsLoading(true);
+    try {
+      const productIds = cart.map((a) => a.id).join(',');
+      const products = await getCartProducts(productIds);
+      setProductsInCart(products);
+    } catch {
+      // TODO: Tratar error
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const filterCartProducts = (prods) => {
-    const productsFiltered = cart.map((a) => {
-      const currentProduct = prods.find((b) => b.id === a.id);
+  // Una vez que tiene los datos de los producto traídos desde el BE (Ej: Stock)
+  // Arma un listado de productos con más info para usarlos en la vista
+  let cartProducts = [];
+  if (productsInCart.length > 0) {
+    cartProducts = cart.map((a) => {
+      const currentProduct = productsInCart.find((b) => b.id === a.id);
       return {
         ...a,
-        description: currentProduct?.description,
         stock: currentProduct?.stock,
         quantityExceedStock: a.quantity > currentProduct?.stock,
         userSellerId: currentProduct?.userSellerId,
       };
     });
-    setCartProducts(productsFiltered);
-  };
+  }
 
   const productsWithStock = cartProducts.length > 0 ? cartProducts.filter((a) => a.stock > 0) : [];
   const priceList =
@@ -259,11 +281,17 @@ export const CheckoutPage = () => {
       </div>
       <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[5fr,2fr]">
         <div className="product-detail w-full h-fit min-h-[470px] p-6 flex flex-col bg-white border rounded-md font-open-sans">
-          <CartList
-            cartProducts={cartProducts}
-            removeItemFromCart={removeItemFromCart}
-            setCartItemQuantity={setCartItemQuantity}
-          />
+          {isLoading ? (
+            <div className="w-full min-h-[470px] flex justify-center items-center">
+              <Spin size="large" />
+            </div>
+          ) : (
+            <CartList
+              cartProducts={cartProducts}
+              removeItemFromCart={removeItemFromCart}
+              setCartItemQuantity={setCartItemQuantity}
+            />
+          )}
         </div>
         <div className="w-full flex flex-col gap-4">
           <SidebarContent
@@ -272,9 +300,10 @@ export const CheckoutPage = () => {
             shipping={1234}
             subtotal={subtotal}
             tax={2345}
+            isLoading={isLoading}
           />
         </div>
       </div>
     </div>
   );
-}
+};

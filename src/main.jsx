@@ -7,8 +7,6 @@ import { HappyProvider } from '@ant-design/happy-work-theme';
 import { Provider } from 'react-redux';
 import Store from './redux/Store';
 import { router } from './router.jsx';
-import AuthProvider from './providers/auth.jsx';
-import CartProvider from './providers/cart.jsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -23,13 +21,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     >
       <StyleProvider hashPriority="high">
         <HappyProvider>
-          <AuthProvider>
-            <CartProvider>
-              <Provider store={Store}>
-                <RouterProvider router={router} />
-              </Provider>
-            </CartProvider>
-          </AuthProvider>
+          <Provider store={Store}>
+            <RouterProvider router={router} />
+          </Provider>
         </HappyProvider>
       </StyleProvider>
     </ConfigProvider>

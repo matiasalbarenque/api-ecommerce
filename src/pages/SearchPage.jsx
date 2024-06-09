@@ -7,21 +7,27 @@ import { Select } from '@atoms/Select';
 import { Slider } from '@atoms/Slider';
 import { EmptyState } from '@atoms/EmptyState';
 import { ProductCard } from '@organisms/ProductCard';
+import { CardSkeleton } from '@molecules/CardSkeleton';
 import { getProductBySearch } from '@services/products';
 import { getCategories } from '@services/categories';
 import { priceFormatting } from '@assets/scripts';
 
-const productCardList = (products) => {
-  if (products.length > 0) {
-    return (
-      <div className="w-full grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
-        {products.map((a) => (
-          <ProductCard {...a} key={a.id} />
-        ))}
-      </div>
-    );
+const ProductsGrid = (props) => {
+  const { products, isLoading } = props;
+
+  if (!isLoading && products.length === 0) {
+    return <EmptyState text="No existen productos disponibles para mostrar" />;
   }
-  return <EmptyState text="No existen productos disponibles para mostrar" />;
+
+  const itemsSkeleton = Array(6).fill(1);
+
+  return (
+    <div className="w-full grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
+      {isLoading
+        ? itemsSkeleton.map((a, index) => <CardSkeleton key={index} />)
+        : products.map((a) => <ProductCard {...a} key={a.id} />)}
+    </div>
+  );
 };
 
 export const SearchPage = () => {
@@ -33,6 +39,7 @@ export const SearchPage = () => {
   const [categoriesFiltered, setCategoriesFiltered] = useState([]);
   const [productsBySearch, setProductsBySearch] = useState([]);
   const [productsFiltered, setProductsFiltered] = useState([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
 
   const { control, formState, handleSubmit, watch, setValue } = useForm({
     mode: 'onChange',
@@ -50,6 +57,7 @@ export const SearchPage = () => {
   }, [searchQuery]);
 
   const getProductsData = async () => {
+    setIsLoadingProducts(true);
     try {
       const productsData = await getProductBySearch(searchQuery);
       // filter: deja unicamente productos con stock
@@ -61,6 +69,7 @@ export const SearchPage = () => {
         .sort((b, c) => b.price - c.price);
       filterProductsBySearch(productListFilteredByStock);
     } catch {
+      setIsLoadingProducts(false);
       // TODO: tratar el error
     }
   };
@@ -87,6 +96,7 @@ export const SearchPage = () => {
         // TODO: Tratar el error con una alerta
       }
     }
+    setIsLoadingProducts(false);
     const categoriesByProductIdsSet = new Set(productsFilteredBySearch.map((a) => a.category_id)); // Con set se quitan los ids duplicados
     const categoriesByProductIds = Array.from(categoriesByProductIdsSet); // Armo el array nuevamente
     const categoriesFiltered = categoriesData.filter((a) => categoriesByProductIds.includes(a.id));
@@ -117,7 +127,7 @@ export const SearchPage = () => {
             id="price-range-id"
             name="priceRange"
             label="Rango de precio"
-            tooltip={{ formatter: (a) => `$${priceFormatting(a)}` }}
+            tooltip={{ formatter: (a) => (a ? `$${priceFormatting(a)}` : '') }}
             min={priceRangeMinValue.current}
             max={priceRangeMaxValue.current}
             disabled={isFilteredDisabled}
@@ -156,8 +166,8 @@ export const SearchPage = () => {
       </div>
       <div className="w-full h-fit p-4 flex flex-col bg-white border rounded-md">
         <h1 className="mt-4 mb-5 font-normal text-2xl">Resultado de la búsqueda 🔍</h1>
-        {productCardList(productsFiltered)}
+        <ProductsGrid products={productsFiltered} isLoading={isLoadingProducts} />
       </div>
     </div>
   );
-}
+};

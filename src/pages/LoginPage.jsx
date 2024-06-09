@@ -14,7 +14,7 @@ import { login } from '@services/auth';
 import { getUserInfo } from '@services/admin/users';
 
 const LoginForm = (props) => {
-  const { control, handleSubmit, isFormValid, onSubmit, hasLoginError } = props;
+  const { control, handleSubmit, isFormValid, onSubmit, hasLoginError, isLoading } = props;
   const navigate = useNavigate();
 
   const signupHandler = () => {
@@ -33,6 +33,7 @@ const LoginForm = (props) => {
         rules={{ required: true }}
         size="large"
         type="email"
+        disabled={isLoading}
       />
       <Input
         control={control}
@@ -44,6 +45,7 @@ const LoginForm = (props) => {
         placeholder="Ingrese su contraseña"
         rules={{ required: true }}
         prefix={<Icon icon="material-symbols-light:vpn-key-outline-rounded" />}
+        disabled={isLoading}
       />
       {hasLoginError && (
         <Alert
@@ -53,17 +55,25 @@ const LoginForm = (props) => {
         />
       )}
       <div className="flex gap-4">
-        <Button shape="default" size="large" type="default" onClick={signupHandler} className="w-full !h-14">
+        <Button
+          shape="default"
+          size="large"
+          type="default"
+          onClick={signupHandler}
+          className="w-full !h-14"
+          disabled={isLoading}
+        >
           Ir al registro
         </Button>
         <Button
-          disabled={!isFormValid}
+          disabled={!isFormValid || isLoading}
           htmlType="submit"
           icon={<LoginOutlined />}
           shape="default"
           size="large"
           type="primary"
           className="w-full !h-14"
+          loading={isLoading}
         >
           Ingresar
         </Button>
@@ -76,6 +86,7 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const { setUser } = useAuth();
   const [hasLoginError, setHasLoginError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { control, formState, handleSubmit } = useForm({
     mode: 'onChange',
@@ -91,6 +102,8 @@ export const LoginPage = () => {
   const onSubmit = async (formData) => {
     let accessToken = null;
     let userInfo = null;
+    setIsLoading(true);
+    setHasLoginError(false);
     try {
       const resp = await login(formData);
       accessToken = resp.access_token;
@@ -98,6 +111,8 @@ export const LoginPage = () => {
     } catch {
       setHasLoginError(true);
       return;
+    } finally {
+      setIsLoading(false);
     }
 
     const tokenData = jwtDecode(accessToken);
@@ -105,7 +120,7 @@ export const LoginPage = () => {
       expires: new Date(tokenData.exp * 1000),
     });
 
-    // Setea datos de sesión en el contexto Auth
+    // Setea datos de sesión en el slice Auth de redux
     // para usarlo en distintas partes de la App
     const userData = {
       avatarUrl: userInfo.avatar_img,
@@ -139,9 +154,10 @@ export const LoginPage = () => {
             isFormValid={isFormValid}
             onSubmit={onSubmit}
             hasLoginError={hasLoginError}
+            isLoading={isLoading}
           />
         </div>
       </div>
     </main>
   );
-}
+};

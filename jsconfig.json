@@ -15,7 +15,6 @@
       "@organisms/*": ["./src/components/organisms/*"],
       "@redux/*": ["./src/redux/*"],
       "@services/*": ["./src/services/*"],
-      "@providers/*": ["./src/providers/*"],
     }
   },
   "include": ["src/**/*.js", "src/**/*.jsx"],

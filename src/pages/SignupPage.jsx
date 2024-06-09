@@ -11,7 +11,7 @@ import { Select } from '@atoms/Select';
 import { signup } from '@services/auth';
 
 const SignupForm = (props) => {
-  const { control, handleSubmit, isFormValid, onSubmit, roles, hasSignupError, watch } = props;
+  const { control, handleSubmit, isFormValid, onSubmit, roles, hasSignupError, watch, isLoading } = props;
   const navigate = useNavigate();
 
   const loginHandler = () => {
@@ -29,6 +29,7 @@ const SignupForm = (props) => {
         prefix={<UserOutlined />}
         rules={{ required: true }}
         size="large"
+        disabled={isLoading}
       />
       <Input
         control={control}
@@ -39,6 +40,7 @@ const SignupForm = (props) => {
         prefix={<UserOutlined />}
         rules={{ required: true }}
         size="large"
+        disabled={isLoading}
       />
       <Input
         control={control}
@@ -50,6 +52,7 @@ const SignupForm = (props) => {
         rules={{ required: true }}
         size="large"
         type="email"
+        disabled={isLoading}
       />
       <Input
         control={control}
@@ -61,6 +64,7 @@ const SignupForm = (props) => {
         placeholder="Ingrese su contraseña"
         rules={{ required: true }}
         prefix={<Icon icon="material-symbols-light:vpn-key-outline-rounded" />}
+        disabled={isLoading}
       />
       <Input
         control={control}
@@ -71,6 +75,7 @@ const SignupForm = (props) => {
         size="large"
         placeholder="Ingrese su contraseña (Repetir)"
         prefix={<Icon icon="material-symbols-light:vpn-key-outline-rounded" />}
+        disabled={isLoading}
         rules={{
           required: true,
           validate: (val) => val === watch('password'),
@@ -85,26 +90,35 @@ const SignupForm = (props) => {
         placeholder="Tipo de usuario"
         rules={{ required: true }}
         options={roles.map((a) => ({ value: a.id, label: <span>{a.description}</span> }))}
+        disabled={isLoading}
       />
       {hasSignupError && (
         <Alert
           type="error"
-          description="El usuario ya existe en el sistema. Ingrese un email distinto e intente nuevamente."
+          description="Se ha producido un error. Ingrese un email distinto e intente nuevamente."
           showIcon
         />
       )}
       <div className="flex gap-4">
-        <Button shape="default" size="large" type="default" onClick={loginHandler} className="w-full !h-14">
+        <Button
+          shape="default"
+          size="large"
+          type="default"
+          onClick={loginHandler}
+          className="w-full !h-14"
+          disabled={isLoading}
+        >
           Ir al login
         </Button>
         <Button
-          disabled={!isFormValid}
+          disabled={!isFormValid || isLoading}
           htmlType="submit"
           icon={<UserAddOutlined />}
           shape="default"
           size="large"
           type="primary"
           className="w-full !h-14"
+          loading={isLoading}
         >
           Registrarme
         </Button>
@@ -117,6 +131,7 @@ export const SignupPage = () => {
   const navigate = useNavigate();
   const { data: roles } = useRoles();
   const [hasSignupError, setHasSignupError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { control, formState, handleSubmit, watch } = useForm({
     mode: 'onChange',
@@ -134,12 +149,16 @@ export const SignupPage = () => {
   const isFormValid = Object.keys(formState.errors).length === 0;
 
   const onSubmit = async ({ passwordRepeat, ...rest }) => {
+    setIsLoading(true);
+    setHasSignupError(false);
     try {
       await signup(rest);
       navigate('/login');
     } catch {
       setHasSignupError(true);
       return;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -163,9 +182,10 @@ export const SignupPage = () => {
             roles={roles}
             hasSignupError={hasSignupError}
             watch={watch}
+            isLoading={isLoading}
           />
         </div>
       </div>
     </main>
   );
-}
+};
