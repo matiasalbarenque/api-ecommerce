@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Alert, Button } from 'antd';
 import { LoginOutlined, UserOutlined } from '@ant-design/icons';
 import { jwtDecode } from 'jwt-decode';
@@ -84,6 +84,8 @@ const LoginForm = (props) => {
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo');
   const { setUser } = useAuth();
   const [hasLoginError, setHasLoginError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +135,7 @@ export const LoginPage = () => {
     };
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
-    navigate('/admin');
+    navigate(`/${redirectTo || 'admin'}`);
   };
 
   return (
