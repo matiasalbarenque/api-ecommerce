@@ -21,6 +21,7 @@ export default defineConfig({
       '@layouts': dir('./src/components/layouts'),
       '@molecules': dir('./src/components/molecules'),
       '@organisms': dir('./src/components/organisms'),
+      '@redux': dir('./src/redux'),
       '@services': dir('./src/services'),
       '@providers': dir('./src/providers'),
     },
