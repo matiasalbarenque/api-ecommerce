@@ -13,6 +13,7 @@
       "@layouts/*": ["./src/components/layouts/*"],
       "@molecules/*": ["./src/components/molecules/*"],
       "@organisms/*": ["./src/components/organisms/*"],
+      "@redux/*": ["./src/redux/*"],
       "@services/*": ["./src/services/*"],
       "@providers/*": ["./src/providers/*"],
     }

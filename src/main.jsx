@@ -4,6 +4,8 @@ import { RouterProvider } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import { StyleProvider } from '@ant-design/cssinjs';
 import { HappyProvider } from '@ant-design/happy-work-theme';
+import { Provider } from 'react-redux';
+import Store from './redux/Store';
 import { router } from './router.jsx';
 import AuthProvider from './providers/auth.jsx';
 import CartProvider from './providers/cart.jsx';
@@ -23,7 +25,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <HappyProvider>
           <AuthProvider>
             <CartProvider>
-              <RouterProvider router={router} />
+              <Provider store={Store}>
+                <RouterProvider router={router} />
+              </Provider>
             </CartProvider>
           </AuthProvider>
         </HappyProvider>

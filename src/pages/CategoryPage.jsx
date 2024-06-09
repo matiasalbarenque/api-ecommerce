@@ -1,64 +1,75 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Badge } from 'antd';
+import { Badge, Skeleton } from 'antd';
 import { EmptyState } from '@atoms/EmptyState';
 import { Icon } from '@atoms/Icon';
 import { ProductCard } from '@organisms/ProductCard';
+import { CardSkeleton } from '@molecules/CardSkeleton';
 
-import { Sidebar } from '../modules/home/Sidebar';
+import { useCategories } from '@hooks/use-categories';
 import { getProductsByCategoryId } from '@services/products';
-import { getCategories } from '@services/categories';
+import { Sidebar } from '../modules/home/Sidebar';
 
 const BadgeRibbon = (props) => {
   const { children, stock } = props;
   if (stock === 0) {
-    return <Badge.Ribbon color="red" text="Sin Stock">{children}</Badge.Ribbon>;
+    return (
+      <Badge.Ribbon color="red" text="Sin Stock">
+        {children}
+      </Badge.Ribbon>
+    );
   }
   if (stock <= 10) {
-    return <Badge.Ribbon color="orange" text="Bajo Stock">{children}</Badge.Ribbon>;
+    return (
+      <Badge.Ribbon color="orange" text="Bajo Stock">
+        {children}
+      </Badge.Ribbon>
+    );
   }
   return <>{children}</>;
 };
 
-const productCardList = (products) => {
-  if (products.length > 0) {
-    return (
-      <div className="w-full grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
-        {products.map((a) => (
-          <BadgeRibbon stock={a.stock} key={a.id}>
-            <ProductCard {...a} />
-          </BadgeRibbon>
-        ))}
-      </div>
-    );
+const ProductsGrid = (props) => {
+  const { products, isLoading } = props;
+
+  if (!isLoading && products.length === 0) {
+    return <EmptyState text="No existen productos disponibles para mostrar" />;
   }
-  return <EmptyState text="No existen productos disponibles para mostrar" />;
+
+  const itemsSkeleton = Array(6).fill(1);
+
+  return (
+    <div className="w-full grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
+      {isLoading
+        ? itemsSkeleton.map((a, index) => <CardSkeleton key={index} />)
+        : products.map((a) => (
+            <BadgeRibbon stock={a.stock} key={a.id}>
+              <ProductCard {...a} />
+            </BadgeRibbon>
+          ))}
+    </div>
+  );
 };
 
 export const CategoryPage = () => {
   const params = useParams();
+  const { data: categories, isLoading: isLoadingCategories } = useCategories();
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    getCategoriesData();
-  }, []);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
 
   useEffect(() => {
     getProductsData();
   }, [params.id]);
 
-  const getCategoriesData = async () => {
-    const data = await getCategories();
-    setCategories(data);
-  };
-
   const getProductsData = async () => {
+    setIsLoadingProducts(true);
     try {
       const data = await getProductsByCategoryId(params.id);
       setProducts(data);
     } catch {
-      // TODO: tratar el error
+      // TODO: tratar el error-
+    } finally {
+      setIsLoadingProducts(false);
     }
   };
 
@@ -67,16 +78,25 @@ export const CategoryPage = () => {
   return (
     <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-[1fr,3fr]">
       <div className="w-full min-w-[320px] h-min p-4 flex flex-col bg-white border rounded-md">
-        <Sidebar />
+        <Sidebar categories={categories} isLoading={isLoadingCategories} />
       </div>
 
       <div className="w-full flex flex-col">
         <h1 className="mt-4 mb-5 font-normal text-2xl">
-          <Icon icon={productCategory?.icon} size="32" className="inline mr-3 mb-1" />
-          Listado de {productCategory?.title}
+          {isLoadingCategories ? (
+            <div className="flex flex-row gap-3">
+              <Skeleton.Avatar active shape="circle" />
+              <Skeleton.Input active />
+            </div>
+          ) : (
+            <>
+              <Icon icon={productCategory?.icon} size="32" className="inline mr-3 mb-1" />
+              Listado de {productCategory?.title}
+            </>
+          )}
         </h1>
-        {productCardList(products)}
+        <ProductsGrid products={products} isLoading={isLoadingProducts} />
       </div>
     </div>
   );
-}
+};

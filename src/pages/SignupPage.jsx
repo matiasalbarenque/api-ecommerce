@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button } from 'antd';
 import { UserOutlined, MailOutlined, UserAddOutlined } from '@ant-design/icons';
 
+import { useRoles } from '@hooks/use-roles';
 import { Icon } from '@atoms/Icon';
 import { Input } from '@atoms/Input';
 import { Select } from '@atoms/Select';
-import { getRoles } from '@services/roles';
 import { signup } from '@services/auth';
 
 const SignupForm = (props) => {
@@ -115,7 +115,7 @@ const SignupForm = (props) => {
 
 export const SignupPage = () => {
   const navigate = useNavigate();
-  const [roles, setRoles] = useState([]);
+  const { data: roles } = useRoles();
   const [hasSignupError, setHasSignupError] = useState(false);
 
   const { control, formState, handleSubmit, watch } = useForm({
@@ -132,19 +132,6 @@ export const SignupPage = () => {
   });
 
   const isFormValid = Object.keys(formState.errors).length === 0;
-
-  useEffect(() => {
-    getRolesData();
-  }, []);
-
-  const getRolesData = async () => {
-    try {
-      const data = await getRoles();
-      setRoles(data);
-    } catch {
-      // TODO: mostrar error de falla al cargar los roles
-    }
-  };
 
   const onSubmit = async ({ passwordRepeat, ...rest }) => {
     try {
