@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Divider, Space, Spin, Tooltip } from 'antd';
-import { CloseCircleOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import {
+  CloseCircleOutlined,
+  LoginOutlined,
+  MinusOutlined,
+  PlusOutlined,
+  ShoppingCartOutlined,
+} from '@ant-design/icons';
+import { useAuth } from '@hooks/use-auth';
 import { useCart } from '@hooks/use-cart';
 import { priceFormatting, priceWhitDiscount } from '@assets/scripts';
 import { getCartProducts } from '@services/products';
@@ -134,7 +141,15 @@ const CartList = (props) => {
 
 const SidebarContent = (props) => {
   const { extendedWarranty, subtotal, shipping, tax, handleBuy, isLoading } = props;
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const redirectToLogin = () => {
+    navigate('/login?redirectTo=checkout');
+  };
+
   const total = extendedWarranty + subtotal + shipping + tax;
+
   return (
     <>
       <div className="w-full min-w-[350px] p-6 flex flex-col gap-8 bg-white border rounded-md">
@@ -185,16 +200,32 @@ const SidebarContent = (props) => {
           </div>
         </div>
       </div>
-      <Button
-        type="primary"
-        shape="default"
-        size="large"
-        className="w-full !h-[54px]"
-        onClick={handleBuy}
-        disabled={isLoading}
-      >
-        <span className="font-medium tracking-wide text-center uppercase">Completar compra</span>
-      </Button>
+
+      {!user.isLogged ? (
+        <Button
+          type="primary"
+          shape="default"
+          size="large"
+          icon={<LoginOutlined />}
+          className="w-full !h-[54px]"
+          onClick={redirectToLogin}
+          disabled={isLoading}
+        >
+          <span className="font-medium tracking-wide text-center uppercase">Loguate para comprar</span>
+        </Button>
+      ) : (
+        <Button
+          type="primary"
+          shape="default"
+          size="large"
+          icon={<ShoppingCartOutlined />}
+          className="w-full !h-[54px]"
+          onClick={handleBuy}
+          disabled={isLoading}
+        >
+          <span className="font-medium tracking-wide text-center uppercase">Completar compra</span>
+        </Button>
+      )}
     </>
   );
 };
