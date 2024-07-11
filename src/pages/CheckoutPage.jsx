@@ -211,7 +211,7 @@ const SidebarContent = (props) => {
           onClick={redirectToLogin}
           disabled={isLoading}
         >
-          <span className="font-medium tracking-wide text-center uppercase">Loguate para comprar</span>
+          <span className="font-medium tracking-wide text-center uppercase">Logueate para comprar</span>
         </Button>
       ) : (
         <Button
