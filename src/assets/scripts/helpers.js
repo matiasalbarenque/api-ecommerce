@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 export const priceFormatting = (p, fractionDigits = 2) => {
   if (p === null || Number.isNaN(Number(p))) {
     throw new Error();
@@ -13,4 +15,12 @@ export const priceWhitDiscount = (price = 0, discount = 0, formatted = true) => 
   const discountValue = 1 - discountParsed / 100;
   const newPrice = price * discountValue;
   return formatted ? priceFormatting(newPrice) : newPrice;
+};
+
+export const formatDate = (date, dateFormat = 'dd/MM/yyyy') => {
+  return format(new Date(date), dateFormat);
+};
+
+export const formatDatetime = (date, dateFormat = 'dd/MM/yyyy HH:mm:ss') => {
+  return format(new Date(date), dateFormat);
 };

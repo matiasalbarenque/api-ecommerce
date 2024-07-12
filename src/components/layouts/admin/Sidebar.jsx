@@ -3,45 +3,41 @@ import { NavLink } from 'react-router-dom';
 
 import { ROLES } from '@constants';
 import { useAuth } from '@hooks/use-auth';
+import { Icon } from '@atoms/Icon';
 
 export const Sidebar = () => {
   const { user } = useAuth();
 
-  const getItem = (label, key, icon, children, type) => {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    };
-  };
-
   const getItems = () => {
     const screens = [
       {
-        screen: 'purchases',
-        description: 'Mis compras',
+        icon: 'hugeicons:dashboard-square-02',
+        page: '',
+        title: 'Dashboard',
+      },
+      {
+        icon: 'ion:bag-check-outline',
+        page: '/purchases',
+        title: 'Mis compras',
       },
     ];
 
     if (user.role === ROLES.SELLER) {
       screens.push({
-        screen: 'products',
-        description: 'Productos',
+        icon: 'octicon:package',
+        page: '/products',
+        title: 'Productos',
       });
     }
 
-    return [
-      getItem(
-        'Secciones',
-        'grp',
-        null,
-        screens.map((a) => getItem(<NavLink to={`/admin/${a.screen}`}>{a.description}</NavLink>, a.id)),
-        'group',
-      ),
-    ];
+    return screens;
   };
 
-  return <Menu style={{ width: '100%', borderInlineEnd: 'none' }} mode="inline" items={getItems()} />;
-}
+  const items = getItems().map((a) => ({
+    key: a.id,
+    icon: <Icon icon={a.icon} className="!align-[-5px]" />,
+    label: <NavLink to={`/admin${a.page}`}>{a.title}</NavLink>,
+  }));
+
+  return <Menu items={items} mode="vertical" style={{ width: '100%', borderInlineEnd: 'none' }} />;
+};
