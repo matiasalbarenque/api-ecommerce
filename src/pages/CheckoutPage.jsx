@@ -12,6 +12,7 @@ import { useAuth } from '@hooks/use-auth';
 import { useCart } from '@hooks/use-cart';
 import { priceFormatting, priceWhitDiscount } from '@assets/scripts';
 import { getCartProducts } from '@services/products';
+import { purchase } from '@services/admin/purchase';
 
 const CartItemQuantity = (props) => {
   const { children, cartItem, setCartItemQuantity } = props;
@@ -148,7 +149,8 @@ const SidebarContent = (props) => {
     navigate('/login?redirectTo=checkout');
   };
 
-  const total = extendedWarranty + subtotal + shipping + tax;
+  // const total = extendedWarranty + subtotal + shipping + tax;
+  const total = subtotal;
 
   return (
     <>
@@ -211,7 +213,7 @@ const SidebarContent = (props) => {
           onClick={redirectToLogin}
           disabled={isLoading}
         >
-          <span className="font-medium tracking-wide text-center uppercase">Loguate para comprar</span>
+          <span className="font-medium tracking-wide text-center uppercase">Logueate para comprar</span>
         </Button>
       ) : (
         <Button
@@ -288,18 +290,9 @@ export const CheckoutPage = () => {
 
   const handleBuy = async () => {
     try {
-      // TODO: hacer esto en el BE
-      // for (const item of cartProducts) {
-      //   const { quantityExceedStock, quantity, ...rest } = item;
-      //   const quantityToBuy = quantityExceedStock ? rest.stock : quantity;
-      //   const body = {
-      //     ...rest,
-      //     stock: rest.stock - quantityToBuy,
-      //   };
-      //   await putProduct(rest.id, body);
-      // }
-      emptyCart();
-      navigate('/checkout-success');
+      const purchaseDate = cartProducts.map((a) => ({ id: a.id, quantity: a.quantity }));
+      await purchase(purchaseDate);
+      navigate('/checkout-success')
     } catch (err) {
       console.log(err);
     }

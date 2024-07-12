@@ -23,9 +23,7 @@ export const signup = async (body) => {
     },
     body: JSON.stringify(body),
   });
-  const data = await response.json();
-  if (response.ok) {
-    return data;
+  if (!response.ok) {
+    throw new Error('Error on signup');
   }
-  throw new Error(data);
 };
