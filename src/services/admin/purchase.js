@@ -16,3 +16,17 @@ export const purchase = async (body) => {
     throw new Error('Error on purchase');
   }
 };
+
+export const getPurchaseHistory = async (userId) => {
+  const response = await fetch(`${ENV.API_URL}/${entity}/history/${userId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: getAuthorization(),
+    },
+  });
+  if (!response.ok) {
+    throw new Error('Error fetching purchase history');
+  }
+  return response.json();
+};

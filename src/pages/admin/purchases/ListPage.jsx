@@ -5,11 +5,12 @@ import { EyeOutlined } from '@ant-design/icons';
 
 import { useAuth } from '@hooks/use-auth';
 import { priceFormatting } from '@assets/scripts';
+import { getPurchaseHistory } from '@services/admin/purchase';
 
 export const AdminPurchasesListPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [products, setProducts] = useState([]);
+  const [purchases, setPurchases] = useState([]);
 
   useEffect(() => {
     getPurchasesData();
@@ -17,11 +18,11 @@ export const AdminPurchasesListPage = () => {
 
   const getPurchasesData = async () => {
     try {
-      const data = [];
-      //const data = await getProducts(`?userSellerId=${user.id}`);
-      setProducts(data);
-    } catch {
-      // TODO: tratar error
+      const data = await getPurchaseHistory(user.id);
+      setPurchases(data);
+    } catch (error) {
+      console.error('Error fetching purchase history:', error);
+      // TODO: handle error appropriately
     }
   };
 
@@ -55,19 +56,17 @@ export const AdminPurchasesListPage = () => {
     },
   ];
 
-  const tableItems = [];
-  const tableItemsTemp = products.map(({ imageUrl, categoryId, id, price, ...rest }) => ({
-    key: id,
-    date: '',
-    quantity: 0,
-    finalPrice: `$${priceFormatting(price)}`,
+  const tableItems = purchases.map(purchase => ({
+    key: purchase.purchaseId,
+    date: new Date(purchase.date).toLocaleDateString(),
+    quantity: purchase.items.reduce((acc, item) => acc + item.quantity, 0),
+    finalPrice: `$${priceFormatting(purchase.totalAmount)}`,
     actions: (
       <div className="flex justify-center gap-2">
-        <Button type="primary" size="middle" icon={<EyeOutlined />} onClick={() => handleView(id)} />
+        <Button type="primary" size="middle" icon={<EyeOutlined />} onClick={() => handleView(purchase.purchaseId)} />
       </div>
     ),
   }));
-  tableItems.push(...tableItemsTemp);
 
   return (
     <div>
@@ -75,4 +74,4 @@ export const AdminPurchasesListPage = () => {
       <Table columns={columns} dataSource={tableItems} className="mt-6 border border-[#ddd] rounded-md bg-white" />
     </div>
   );
-}
+};
