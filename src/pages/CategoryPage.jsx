@@ -12,7 +12,7 @@ import { Sidebar } from '../modules/home/Sidebar';
 
 const BadgeRibbon = (props) => {
   const { children, stock } = props;
-  if (stock == 0) {
+  if (stock === 0) {
     return (
       <Badge.Ribbon color="red" text="Sin Stock">
         {children}

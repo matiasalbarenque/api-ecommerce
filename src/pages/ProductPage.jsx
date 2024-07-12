@@ -79,7 +79,7 @@ const ProductPricing = (props) => {
         </div>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-        {product.stock == 0 ? (
+        {product.stock === 0 ? (
           <span>Sin stock</span>
         ) : (
           <InputNumber
@@ -99,7 +99,7 @@ const ProductPricing = (props) => {
             size="large"
             className="!h-14"
             icon={<ShoppingOutlined />}
-            disabled={product.stock == 0}
+            disabled={product.stock === 0}
             onClick={() => handleBuy()}
           >
             Comprar
@@ -110,7 +110,7 @@ const ProductPricing = (props) => {
             size="large"
             className="!h-14"
             icon={<ShoppingCartOutlined />}
-            disabled={product.stock == 0}
+            disabled={product.stock === 0}
           >
             Agregar al carrito
           </Button>
